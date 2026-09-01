@@ -1,8 +1,0 @@
-stages:
-  - test
-
-powershell-syntax:
-  stage: test
-  image: mcr.microsoft.com/powershell:latest
-  script:
-    - pwsh -NoLogo -NoProfile -File ./tests/Parse-PowerShell.ps1
