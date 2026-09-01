@@ -1,0 +1,12 @@
+# Local PowerShell and Git artifacts
+*.tmp
+*.log
+
+# Local configuration that may contain a target checkout path or credentials
+.env
+.env.*
+!.env.example
+
+# PowerShell analysis/test caches
+PSScriptAnalyzerSettings.psd1
+TestResults/
