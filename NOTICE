@@ -1,4 +1,8 @@
-git-push-twin
+Git Push Twin (`git-push-twin`)
 Copyright 2026 GremlinNavi
+
+Git Push Twin is a standalone open-source Git/PowerShell utility for deliberate multi-host repository publication, verification, and redundancy through the `git push twin` convention.
+
+It is not branded as, or coupled to, any other project.
 
 Licensed under the Apache License, Version 2.0.
