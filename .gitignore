@@ -1,0 +1,6 @@
+# Local configuration used by a target repository.
+.git-push-twin.json
+
+# Local packaging/test output.
+dist/
+tmp/

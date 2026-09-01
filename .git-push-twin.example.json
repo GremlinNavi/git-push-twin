@@ -1,0 +1,9 @@
+{
+  "excludePaths": [
+    "docs/examples/*"
+  ],
+  "extraSecretPatterns": [
+    "(?i)MY_INTERNAL_TOKEN\\s*[:=]\\s*\\S+"
+  ],
+  "maxScanFileBytes": 5242880
+}
