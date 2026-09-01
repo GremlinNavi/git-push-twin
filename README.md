@@ -1,6 +1,6 @@
-# git-push-twin
+# Git Push Twin
 
-`git-push-twin` is a small PowerShell safety and redundancy layer for Git.
+`git-push-twin` is a small, standalone PowerShell safety and redundancy layer for Git.
 
 It configures a normal Git remote named `twin` with any number of push URLs so that the literal command:
 
@@ -18,7 +18,7 @@ The project adds three things around Git's native multi-push behavior:
 
 ## Why this exists
 
-A single hosting provider is a convenient distribution point, not an archival strategy. `git-push-twin` is intended for developers who want one local command to publish identical repository state to GitHub, GitLab, self-hosted Git servers, or any other Git remote.
+A single hosting provider is a convenient distribution point, not an archival strategy. Git Push Twin is intended for developers who want one local command to publish identical repository state to GitHub, GitLab, self-hosted Git servers, or any other Git remote.
 
 Git itself supports multiple push URLs for one remote. Current Git documentation states that pushing to a remote affects all defined `pushurl` values. `git-push-twin` uses that native behavior rather than reimplementing the Git transport protocol.
 
@@ -122,6 +122,14 @@ This avoids modifying the commit during the integrity check.
 Multi-host publication is not an atomic distributed transaction.
 
 One server can accept a push while a later server fails. `git-push-twin` therefore treats verification as a first-class step and reports mismatched/unreachable mirrors rather than claiming rollback guarantees Git does not provide.
+
+## Project identity
+
+- Human-facing name: Git Push Twin
+- Technical/project slug: `git-push-twin`
+- Literal Git command: `git push twin`
+
+Git Push Twin is a standalone open-source Git utility. It is not branded as, or coupled to, any other project.
 
 ## License
 
