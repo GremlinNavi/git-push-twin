@@ -6,7 +6,9 @@ param(
 
     [string] $Branch,
 
-    [switch] $SkipHook
+    [switch] $SkipHook,
+
+    [switch] $Force
 )
 
 Set-StrictMode -Version 2.0
@@ -73,6 +75,13 @@ foreach ($url in $RepositoryUrl) {
 
 $existing = Invoke-Git -Arguments @('remote', 'get-url', 'twin') -AllowFailure
 if ($existing.ExitCode -eq 0) {
+    $managed = Invoke-Git -Arguments @('config', '--get', 'remote.twin.gitPushTwinManaged') -AllowFailure
+    $isManaged = ($managed.ExitCode -eq 0 -and ($managed.Output -join '').Trim() -eq 'true')
+
+    if (-not $isManaged -and -not $Force) {
+        throw "A remote named 'twin' already exists and is not marked as managed by git-push-twin. Re-run with -Force only if you intentionally want to replace that remote."
+    }
+
     Invoke-Git -Arguments @('remote', 'remove', 'twin') | Out-Null
 }
 
@@ -84,6 +93,7 @@ foreach ($url in $normalized) {
 
 Invoke-Git -Arguments @('config', '--local', '--replace-all', 'remote.twin.push', "HEAD:refs/heads/$Branch") | Out-Null
 Invoke-Git -Arguments @('config', '--local', '--replace-all', 'remote.twin.skipDefaultUpdate', 'true') | Out-Null
+Invoke-Git -Arguments @('config', '--local', '--replace-all', 'remote.twin.gitPushTwinManaged', 'true') | Out-Null
 
 if (-not $SkipHook) {
     $gitDir = (Invoke-Git -Arguments @('rev-parse', '--git-dir')).Output[-1].ToString().Trim()
@@ -104,8 +114,17 @@ if (-not $SkipHook) {
     Copy-Item -LiteralPath $sourcePrePush -Destination $targetPrePush -Force
 
     $hookPath = Join-Path $hooksDir 'pre-push'
+
+    if (Test-Path -LiteralPath $hookPath -PathType Leaf) {
+        $existingHook = Get-Content -LiteralPath $hookPath -Raw -ErrorAction SilentlyContinue
+        if ($existingHook -notmatch 'git-push-twin-managed-hook') {
+            throw "A pre-push hook already exists at '$hookPath'. git-push-twin will not overwrite another tool's hook. Re-run with -SkipHook and integrate scripts/pre-push.ps1 into your existing hook."
+        }
+    }
+
     $hook = @'
 #!/bin/sh
+# git-push-twin-managed-hook
 set -eu
 
 repo_root="$(git rev-parse --show-toplevel)"
@@ -148,4 +167,4 @@ Write-Host ''
 Write-Host 'Use:'
 Write-Host '  git push twin'
 Write-Host ''
-Write-Host 'For post-push remote verification, run Invoke-GitPushTwin.ps1 from this tool repository.'
+Write-Host 'For post-push verification, invoke the tool repository''s Invoke-GitPushTwin.ps1 while your current directory remains this target repository.'

@@ -48,6 +48,8 @@ The installer:
 - configures every supplied URL as a push URL;
 - pins `git push twin` to the branch selected at install time;
 - installs the scrub/checksum `pre-push` hook locally in `.git/hooks`;
+- refuses to overwrite a pre-existing `twin` remote unless it was previously managed by this tool or `-Force` is explicitly supplied;
+- refuses to overwrite another tool's existing `pre-push` hook;
 - never stores credentials in the repository.
 
 Use SSH, Git Credential Manager, or another normal Git authentication mechanism. Do not place access tokens in this project's config files.
@@ -67,10 +69,10 @@ Before network transfer begins, the hook:
 - writes a SHA-256 manifest under `.git/git-push-twin/checksums/`;
 - aborts the push if the safety gate fails.
 
-For stronger post-push confirmation, run:
+For stronger post-push confirmation, keep your current directory in the target repository and invoke the verifier from the cloned tool directory:
 
 ```powershell
-.\Invoke-GitPushTwin.ps1
+& "C:\path\to\git-push-twin\Invoke-GitPushTwin.ps1"
 ```
 
 That performs the same `git push twin`, then queries every configured push URL with `git ls-remote` and confirms that the remote branch equals the local `HEAD`.
