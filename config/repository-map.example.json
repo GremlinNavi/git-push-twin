@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "mappingVersion": "example-v1",
+  "status": "example-only",
+  "namespaces": {
+    "twin": {
+      "1": ["origin"],
+      "2": ["origin", "gitlab"],
+      "3": ["origin", "gitlab", "archive-example"]
+    },
+    "repo": {
+      "1": "origin",
+      "2": "gitlab",
+      "3": "archive-example"
+    }
+  },
+  "notes": [
+    "Example logical mapping only.",
+    "Do not infer repository equivalence from arithmetic membership.",
+    "Production endpoints and credentials must be configured separately."
+  ]
+}

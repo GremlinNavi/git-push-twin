@@ -1,0 +1,16 @@
+{
+  "specVersion": "0.1-draft",
+  "maxExpressionLength": 256,
+  "maxTokens": 128,
+  "maxAstDepth": 32,
+  "maxAbsoluteIntegerComponent": 1000000000000,
+  "allowedOperators": ["+", "-", "*", "/"],
+  "allowParentheses": true,
+  "allowUnaryMinus": true,
+  "allowFiniteDecimals": true,
+  "allowRomanNumerals": true,
+  "romanNumeralPolicy": "canonical-modern",
+  "exactArithmetic": "rational",
+  "defaultFinalDomain": "positive-integer",
+  "arbitraryCodeExecution": false
+}

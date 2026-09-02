@@ -1,0 +1,17 @@
+# OSWAP Expression Addressing draft v0.1 conformance vectors
+# Format: raw | canonical | exact-value | expected-status
+
+9/3 | (9/3) | 3 | ACCEPT
+6/2 | (6/2) | 3 | ACCEPT
+12/4 | (12/4) | 3 | ACCEPT
+1.5*2 | (1.5*2) | 3 | ACCEPT
+0.1+0.2 | (0.1+0.2) | 3/10 | ACCEPT
+IX/III | (9/3) | 3 | ACCEPT
+XII/IV | (12/4) | 3 | ACCEPT
+(9/3) | (9/3) | 3 | ACCEPT
+-3+6 | ((-3)+6) | 3 | ACCEPT
+1/0 | - | - | REJECT
+IIII | - | - | REJECT
+3//2 | - | - | REJECT
+repo3 | - | - | REJECT
+$(Get-Process) | - | - | REJECT
