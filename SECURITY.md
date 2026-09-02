@@ -22,6 +22,8 @@ If a secret was already committed:
 
 Simply deleting the secret in a later commit does not remove it from earlier Git objects.
 
-## Reporting
+## Reporting a vulnerability
 
-Please avoid filing public issues containing real credentials or sensitive repository content.
+Do not open a public issue containing exploit details, real credentials, or sensitive repository content. Use the hosting provider's private vulnerability-reporting feature when available. If no private feature is available, contact the maintainer through a private method listed on their hosting profile and request a confidential channel before sharing details.
+
+Include affected versions, impact, reproduction conditions, and suggested mitigation without including real secrets. Acknowledgement and remediation are best-effort; no response-time guarantee is made.
