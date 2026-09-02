@@ -1,40 +1,45 @@
-# Git Push Twin
+# PS-twin
 
-`git-push-twin` is a small, standalone PowerShell safety and redundancy layer for Git.
+PS-twin is a standalone PowerShell safety, publication, and repository-redundancy layer for OSWAP.
 
-It configures a normal Git remote named `twin` with any number of push URLs so that the literal command:
+The project name is intentionally repository-provider agnostic. Git is the current transport implementation; GitHub, GitLab, self-hosted Git servers, and future repository or archival providers are destinations rather than the identity of the project.
+
+## Current Git workflow
+
+PS-twin currently configures a normal Git remote named `twin` with one or more push URLs so that the explicit command:
 
 ```powershell
 git push twin
 ```
 
-publishes the same commit to every configured mirror.
+publishes the selected commit to every configured Git destination.
 
-The project adds three things around Git's native multi-push behavior:
+The current implementation adds safety and verification around Git's native multi-push behaviour:
 
-1. a pre-push scrub gate that refuses to publish obvious secrets or private-key material;
-2. a SHA-256 manifest for the exact clean working tree being pushed;
-3. an optional post-push verifier that checks every mirror's branch ref against the local commit.
+1. a pre-push scrub gate that refuses obvious secrets or private-key material;
+2. a SHA-256 manifest for the clean tracked tree being pushed;
+3. optional post-push verification that compares destination branch refs with the local commit; and
+4. explicit failure semantics for partial multi-host publication.
 
-## Why this exists
+## Why PS-twin exists
 
-A single hosting provider is a convenient distribution point, not an archival strategy. Git Push Twin is intended for developers who want one local command to publish identical repository state to GitHub, GitLab, self-hosted Git servers, or any other Git remote.
+A repository host is a distribution surface, not an archival identity.
 
-Git itself supports multiple push URLs for one remote. Current Git documentation states that pushing to a remote affects all defined `pushurl` values. `git-push-twin` uses that native behavior rather than reimplementing the Git transport protocol.
+PS-twin is intended to let a project keep its publication policy independent of a single provider. Today that means standard Git remotes. The architecture is deliberately structured so future OSWAP adapters can support other repository or archival transports without renaming the project around a particular provider.
 
 ## Requirements
 
-- Git
 - PowerShell 5.1+ or PowerShell 7+
-- an existing local Git repository
-- authenticated push access to each destination repository
+- Git for the current Git transport adapter
+- an existing local repository checkout
+- authenticated access to each selected destination
 
-## Install into a repository
+## Install the current Git adapter
 
-Clone or download this project, then from the repository you want to mirror:
+From the repository you want to publish through the Git adapter:
 
 ```powershell
-& "C:\path\to\git-push-twin\Install-GitPushTwin.ps1" `
+& "C:\path\to\ps-twin\Install-GitPushTwin.ps1" `
   -RepositoryUrl @(
     "https://github.com/OWNER/REPO.git",
     "https://gitlab.com/GROUP/REPO.git"
@@ -44,90 +49,67 @@ Clone or download this project, then from the repository you want to mirror:
 The installer:
 
 - refuses to run outside a Git working tree;
-- preserves the first URL as the fetch URL for `twin`;
-- configures every supplied URL as a push URL;
+- preserves the first configured URL as the fetch URL for `twin`;
+- configures supplied destinations as push URLs;
 - pins `git push twin` to the branch selected at install time;
 - installs the scrub/checksum `pre-push` hook locally in `.git/hooks`;
-- refuses to overwrite a pre-existing `twin` remote unless it was previously managed by this tool or `-Force` is explicitly supplied;
-- refuses to overwrite another tool's existing `pre-push` hook;
-- never stores credentials in the repository.
+- refuses to overwrite an unexpected `twin` remote unless explicitly authorized; and
+- never stores repository credentials.
 
-Use SSH, Git Credential Manager, or another normal Git authentication mechanism. Do not place access tokens in this project's config files.
+Use SSH, Git Credential Manager, or another normal authentication mechanism. Do not place access tokens in project configuration.
 
-## Push
-
-After configuration:
+## Publish
 
 ```powershell
 git push twin
 ```
 
-Before network transfer begins, the hook:
+Before network transfer begins, the hook can:
 
-- requires tracked files to match the current commit;
-- scans tracked text files for common credential/private-key patterns;
-- writes a SHA-256 manifest under `.git/git-push-twin/checksums/`;
-- aborts the push if the safety gate fails.
+- require tracked files to match the current commit;
+- scan tracked text files for common credential/private-key patterns;
+- write a SHA-256 manifest under `.git/ps-twin/checksums/` or the compatibility storage path used by the installed version; and
+- abort publication if the safety gate fails.
 
-For stronger post-push confirmation, keep your current directory in the target repository and invoke the verifier from the cloned tool directory:
+For stronger post-push confirmation, keep the current directory in the target repository and run the verifier from the PS-twin checkout:
 
 ```powershell
-& "C:\path\to\git-push-twin\Invoke-GitPushTwin.ps1"
+& "C:\path\to\ps-twin\Invoke-GitPushTwin.ps1"
 ```
 
-That performs the same `git push twin`, then queries every configured push URL with `git ls-remote` and confirms that the remote branch equals the local `HEAD`.
+The verifier performs the current Git publication operation and checks configured remote refs against local `HEAD`.
 
-## Add more mirrors
+## Pull and source selection
 
-Re-run the installer with the complete destination list. The `twin` remote is rebuilt deterministically from the supplied URLs.
+Git supports multiple push URLs for one remote, but ordinary `git pull twin` uses only the fetch URL. PS-twin therefore keeps multi-source pull behaviour in an explicit PowerShell dispatcher rather than pretending native Git performs a distributed pull.
 
-There is no hard-coded two-repository limit. "Twin" describes the mirrored workflow, not the number of destinations.
+See:
 
-## Configuration
+- `Enable-GitPullTwin.ps1`
+- `Invoke-GitPullTwin.ps1`
+- `ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md`
 
-An optional `.git-push-twin.json` file can be placed in a target repository:
+## Data-scrubbing philosophy
 
-```json
-{
-  "excludePaths": [
-    "docs/examples/*"
-  ],
-  "extraSecretPatterns": [
-    "(?i)MY_INTERNAL_TOKEN\\s*[:=]\\s*\\S+"
-  ],
-  "maxScanFileBytes": 5242880
-}
-```
+The default scrub stage is deliberately non-destructive. It detects likely secrets and stops publication instead of silently rewriting source files.
 
-`excludePaths` only affects the scrub scan. It does not exclude files from Git or from the checksum manifest.
+If a secret was committed previously, rotate the credential and use an appropriate reviewed history-cleaning procedure. Removing it only from the newest working tree is not sufficient.
 
-## Data scrubbing philosophy
+## Integrity evidence
 
-The default scrub stage is deliberately non-destructive. It detects likely secrets and stops the push instead of silently rewriting source files.
-
-Automatic redaction inside a Git working tree can corrupt source code or create a false sense that sensitive material was removed from history. If a secret was committed previously, rotate the credential and rewrite Git history using an appropriate history-cleaning tool before publishing.
-
-## SHA-256 evidence
-
-For tracked files that match the current commit, the pre-push hook computes a SHA-256 digest for every tracked regular file and stores a manifest outside the tracked tree:
-
-```text
-.git/git-push-twin/checksums/<commit-sha>.sha256
-```
-
-This avoids modifying the commit during the integrity check.
+For a clean tracked tree, the current Git adapter can compute SHA-256 digests without modifying the commit being published. Integrity metadata is evidence about content identity; it is not a substitute for signatures, access controls, or independent archival policy.
 
 ## Failure semantics
 
 Multi-host publication is not an atomic distributed transaction.
 
-One server can accept a push while a later server fails. `git-push-twin` therefore treats verification as a first-class step and reports mismatched/unreachable mirrors rather than claiming rollback guarantees Git does not provide.
+One destination may accept a push while another rejects it. PS-twin reports divergence and expects the operator to inspect repository state rather than claiming rollback guarantees that the underlying transport does not provide.
 
-## Forge API independence and graceful degradation
+## Provider and control-plane independence
 
-Git Push Twin uses standard Git transport as its publication path. Hosting-provider REST or GraphQL APIs, web interfaces, IDE integrations, and AI connectors are optional control surfaces; they are not required for normal twin publication when the configured Git remotes remain reachable and authenticated.
+Hosting-provider REST or GraphQL APIs, web interfaces, IDE integrations, and AI connectors are optional control surfaces. They are not the authoritative definition of repository availability.
 
-A failure in one control surface must not be treated as proof that the repository itself is unavailable. These are separate failure domains:
+For the current Git adapter:
 
 ```text
 forge API or connector failure
@@ -136,9 +118,7 @@ forge API or connector failure
 != repository divergence
 ```
 
-For example, an integration may retain read access while losing permission to create commits or branches through a forge API. If ordinary Git credentials still permit access, the operator can continue to use the configured repository and publish through `git push twin`.
-
-Before destructive recovery or manual reconstruction, verify the underlying Git path directly:
+Verify the underlying transport directly before destructive recovery:
 
 ```powershell
 git remote -v
@@ -146,36 +126,53 @@ git ls-remote twin
 git push twin --dry-run
 ```
 
-A successful API call is therefore not the authoritative definition of repository availability. Git object IDs and direct Git transport checks remain the relevant evidence for repository state and publication capability.
+## OSWAP relationship
+
+PS-twin is publication and repository-redundancy infrastructure for the Open-Source World Access Project (OSWAP). It is separate from the OSWAP catalogue/database and from the Sovereign AI Demonstrator.
+
+OSWAP owns:
+
+- `oswap.ca`
+- `oswap.jp`
+- `oswap.us`
+
+Planned repository-access namespaces are:
+
+- `repo.oswap.ca`
+- `repo.oswap.jp`
+- `repo.oswap.us`
+
+These subdomains are roadmap infrastructure until DNS, TLS, routing, protocol behaviour, and repository equivalence are deployed and verified.
 
 ## Design documentation
 
-Current behavior is described in this README. Proposed extensions are documented separately so experimental syntax is not confused with implemented Git behavior:
+Implemented behaviour and experimental design are intentionally separated.
 
-- [DESIGN_DIRECTION.md](DESIGN_DIRECTION.md) — expression-driven deployment policy, sanitization, cryptographic roles, control-plane independence, and future allocation rules.
-- [ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md](ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md) — mathematical twin/member identifiers, subset pull semantics, and human oversight records.
-- [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md) — OSWAP-owned domain addressing, DNS-safe expression aliases such as `repo9d3.oswap.ca`, wrapper normalization such as `repo(9/3).oswap.ca`, and build-date/file-tree provenance.
+- [BRANDING.md](BRANDING.md) — canonical PS-twin identity and compatibility naming.
+- [DESIGN_DIRECTION.md](DESIGN_DIRECTION.md) — future allocation, sanitization, cryptographic, and control-plane directions.
+- [ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md](ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md) — proposed mathematical repository-family identifiers and subset semantics.
+- [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md) — proposed OSWAP domain addressing and provenance models.
+- `docs/expression-addressing/` — expression parsing, execution, provenance, and security design.
 
-OSWAP owns `oswap.ca`, `oswap.jp`, and `oswap.us`. Example subdomains in design documents remain proposed until their DNS, TLS, routing, and Git protocol behavior are deployed and verified.
+Experimental syntax is not represented as implemented transport behaviour.
 
-## Project identity
+## Current public forge paths
 
-- Human-facing name: Git Push Twin
-- Technical/project slug: `git-push-twin`
-- Literal Git command: `git push twin`
-
-Git Push Twin is a standalone open-source Git utility and publication infrastructure for the Open-Source World Access Project (OSWAP). It is not the OSWAP software catalogue or database, and it does not replace or rename the separate Sovereign AI Demonstrator.
-
-Canonical public repositories:
+The connected public repositories currently retain their earlier `git-push-twin` hosting paths:
 
 - GitHub: <https://github.com/GremlinNavi/git-push-twin>
 - GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
 
-See [BRANDING.md](BRANDING.md) for the complete naming boundary.
+The canonical project name is PS-twin. Those forge paths are transition identifiers and should move to a `ps-twin` form when renamed through the repository-host account settings.
 
 ## Community
 
-Before participating, read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [SECURITY.md](SECURITY.md), and [SUPPORT.md](SUPPORT.md).
+Before contributing, read:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [SECURITY.md](SECURITY.md)
+- [SUPPORT.md](SUPPORT.md)
 
 ## License
 
