@@ -151,12 +151,12 @@ function Select-Destinations([string[]]$Urls, $Resolution) {
 }
 
 $text = (($Command | Where-Object { $_ -ne $null }) -join ' ').Trim()
-if ($text -in @('twin','push twin')) {
+if ($text -in @('twin','upload twin','push twin')) {
     $expression = $null
-} elseif ($text -match '^(?:push\s+)?twin=(.+)$') {
+} elseif ($text -match '^(?:(?:upload|push)\s+)?twin=(.+)$') {
     $expression = $Matches[1]
 } else {
-    throw 'Usage: Invoke-OSWAPPush.ps1 push twin=<OSWAP-ARITHMETIC> [-Execute]'
+    throw 'Usage: Invoke-OSWAPPush.ps1 upload twin=<OSWAP-ARITHMETIC> [-Execute]'
 }
 
 $resolution = $null

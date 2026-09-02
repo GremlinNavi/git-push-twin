@@ -1,20 +1,22 @@
-# PS-twin branding
+# OSWAP Twin Transport branding
 
 ## Canonical identity
 
-- Display name: `PS-twin`
-- Intended repository/package identifier: `ps-twin`
+- Display name: `OSWAP Twin Transport`
+- GitHub repository slug: `PS-twin` (historical hosting identifier)
+- GitLab repository slug: `git-push-twin` (historical hosting identifier)
 - Primary implementation language: PowerShell
-- Current Git transport command: `git push twin`
+- Canonical user-facing command: `oswap upload twin=N`
+- Compatibility Git transport command: `git push twin`
 - Current Git remote name: `twin`
 
-`PS-twin` is the project identity. Git, GitHub, GitLab, self-hosted Git servers, and future repository providers are transport or hosting surfaces rather than the identity of the project.
+`OSWAP Twin Transport` is the component identity. `PS-twin` and `git-push-twin` are compatibility/hosting identifiers; Git, GitHub, GitLab, self-hosted Git servers, and future repository providers are transport surfaces rather than the public identity of the component.
 
 The name deliberately avoids privileging a particular repository provider. The current implementation uses standard Git transport because Git is broadly interoperable, but OSWAP architecture should remain free to add other repository or archival adapters without requiring another project rename.
 
 ## Open-Source World Access Project relationship
 
-PS-twin is open-source publication and repository-redundancy infrastructure for the Open-Source World Access Project (OSWAP). It helps an operator configure, publish, compare, and verify approved repository destinations.
+OSWAP Twin Transport is open-source publication and repository-redundancy infrastructure for the Open-Source World Access Project (OSWAP). It helps an operator configure, publish, compare, and verify approved repository destinations.
 
 It is not the OSWAP software catalogue or database, and it does not replace or rename the separate Sovereign AI Demonstrator.
 
@@ -40,16 +42,16 @@ See [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS
 
 ## Current public repositories
 
-The connected forge projects currently retain the historical `git-push-twin` path:
+The connected forge projects currently use different historical hosting slugs:
 
-- GitHub: <https://github.com/GremlinNavi/git-push-twin>
+- GitHub: <https://github.com/GremlinNavi/PS-twin>
 - GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
 
-Those URLs are hosting identifiers, not the canonical project name. They should be renamed to a `ps-twin` form when the repository-host account settings are changed. Until then, existing URLs remain valid transition paths.
+Those URLs are hosting identifiers, not the canonical component name. Avoid further repository renames during active development unless there is a concrete migration need; public documentation should use `OSWAP Twin Transport` and canonical OSWAP command syntax.
 
 ## Compatibility names
 
-`Git Push Twin` and `git-push-twin` are retired as project branding. They may still appear where necessary to describe:
+`PS-twin`, `Git Push Twin`, and `git-push-twin` are compatibility or hosting identifiers rather than current component branding. They may still appear where necessary to describe:
 
 - the literal `git push twin` command;
 - compatibility-facing script filenames such as `Invoke-GitPushTwin.ps1`;

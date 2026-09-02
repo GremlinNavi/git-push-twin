@@ -1,18 +1,18 @@
-# git push twin — Open-Source World Access Project Twin PowerShell Architecture
+# OSWAP Twin Transport (`git-push-twin`)
 
-`git-push-twin` provides the Git transport component used by the Open-Source World Access Project for explicit multi-destination repository publication.
+`git-push-twin` provides the Git/PowerShell transport component used by the Open-Source World Access Project for explicit multi-destination repository publication. The canonical user-facing publication form is `oswap upload twin=N`; `git push twin` remains a transport-level compatibility mechanism.
 
 This repository adopts [OSWAP Standard 0.2.0](OSWAP_STANDARD.md) and its [intent documentation](OSWAP_INTENT.md). OSWAP-authored code and documentation here are Apache-2.0 licensed.
 
-## Two publication layers
+## Command hierarchy
 
-The existing PS-twin publication path remains available through `Invoke-GitPushTwin.ps1` for configured all-destination pushes.
+The canonical OSWAP publication path is `oswap upload twin=N`. This repository supplies its transport backend. `Invoke-GitPushTwin.ps1` and the literal `git push twin` command remain available for configured all-destination compatibility pushes.
 
-OSWAP adds a custom DSL layer with restricted arithmetic and semi-random destination selection:
+The OSWAP DSL adds restricted arithmetic and semi-random destination selection:
 
 ```powershell
-.\Invoke-OSWAPPush.ps1 'push' 'twin=(4+3)/2'
-.\Invoke-OSWAPPush.ps1 'push' 'twin=(4+3)/2' -Execute
+.\Invoke-OSWAPPush.ps1 'upload' 'twin=(4+3)/2'
+.\Invoke-OSWAPPush.ps1 'upload' 'twin=(4+3)/2' -Execute
 ```
 
 `(4+3)/2` resolves to a replication factor of `3.5`: three whole destination copies are guaranteed and a fourth whole destination is selected with 50% probability. There is never a partial repository copy.
@@ -27,7 +27,7 @@ The reference OSWAP push implementation never uses `Invoke-Expression`.
 
 ## Current implementation status
 
-`Invoke-OSWAPPush.ps1` currently implements restricted `push twin=<expression>` preview and execution, including fractional whole-copy replication, randomized destination selection without replacement, and explicit `TWIN` confirmation before publication.
+`Invoke-OSWAPPush.ps1` recognizes canonical `upload twin=<expression>` preview and execution while retaining `push twin=<expression>` as a compatibility alias. It implements fractional whole-copy replication, randomized destination selection without replacement, and explicit `TWIN` confirmation before publication.
 
 `Invoke-GitPullTwin.ps1` implements multi-source retrieval independently of the expression-addressing draft: it fetches each configured twin source, compares commit IDs, refuses disagreement, and only fast-forwards a clean local branch when the twin sources agree.
 
