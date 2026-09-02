@@ -1,4 +1,4 @@
-# PS-twin — OWASP Twin PowerShell Architecture
+# PS-twin — Open-Source World Access Project Twin PowerShell Architecture
 
 PS-twin is a small, separate Git repository for one purpose: configure an Open-Source World Access Project
 application checkout with a standard Git remote named `twin`.
