@@ -17,6 +17,20 @@ Project (OSWAP)**. It helps an operator publish and verify approved Git destinat
 It is not the OSWAP software catalogue or database, and it does not replace or rename
 the separate Sovereign AI Demonstrator.
 
+## OSWAP-owned domains
+
+OSWAP controls the following public domain namespaces:
+
+- `oswap.ca`
+- `oswap.jp`
+- `oswap.us`
+
+These domains may be referenced in architecture, protocol, and documentation examples. Domain ownership must not be confused with deployment status: a proposed subdomain such as `repo9d3.oswap.ca`, `repo9d3.oswap.jp`, or `repo9d3.oswap.us` is not operational merely because its parent domain is owned. DNS, TLS, routing, Git protocol behavior, and repository equivalence must be separately deployed and verified.
+
+Order of Operations addressing may use DNS-safe expression labels such as `9d3` for the canonical expression `9/3`. The canonical mathematical expression remains metadata; the encoded label exists for transport surfaces that cannot represent the raw arithmetic form.
+
+See [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md).
+
 ## Canonical public repositories
 
 - GitHub: <https://github.com/GremlinNavi/git-push-twin>
