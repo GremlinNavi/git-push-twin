@@ -82,7 +82,7 @@ if (-not [System.IO.Path]::IsPathRooted($gitDir)) {
 
 $currentBranchResult = Invoke-Git -Arguments @('symbolic-ref', '--quiet', '--short', 'HEAD') -AllowFailure
 if ($currentBranchResult.ExitCode -ne 0) {
-    Write-Error 'git-push-twin blocked this push because HEAD is detached.'
+    Write-Error 'PS-twin blocked this push because HEAD is detached.'
     exit 2
 }
 $currentBranch = $currentBranchResult.Output[-1].ToString().Trim()
@@ -93,7 +93,7 @@ if ($pushSpecResult.ExitCode -eq 0) {
     if ($pushSpec -match '^HEAD:refs/heads/(.+)$') {
         $configuredBranch = $Matches[1]
         if ($configuredBranch -ne $currentBranch) {
-            Write-Error "git-push-twin is configured for branch '$configuredBranch', but the current branch is '$currentBranch'. Re-run the installer intentionally before changing the mirrored branch."
+            Write-Error "PS-twin is configured for branch '$configuredBranch', but the current branch is '$currentBranch'. Re-run the installer intentionally before changing the publication branch."
             exit 2
         }
     }
@@ -102,7 +102,7 @@ if ($pushSpecResult.ExitCode -eq 0) {
 $status = Invoke-Git -Arguments @('status', '--porcelain=v1', '--untracked-files=no')
 if ($status.Output.Count -gt 0 -and -not [string]::IsNullOrWhiteSpace(($status.Output -join ''))) {
     Write-Error @'
-git-push-twin blocked this push because tracked files do not match the current commit.
+PS-twin blocked this push because tracked files do not match the current commit.
 Commit, stash, or discard tracked changes first so the SHA-256 manifest describes exactly the commit being published.
 '@
     exit 2
@@ -114,8 +114,26 @@ $config = @{
     maxScanFileBytes    = 5242880
 }
 
-$configPath = Join-Path $repoRoot '.git-push-twin.json'
-if (Test-Path -LiteralPath $configPath -PathType Leaf) {
+$canonicalConfigPath = Join-Path $repoRoot '.ps-twin.json'
+$legacyConfigPath = Join-Path $repoRoot '.git-push-twin.json'
+$canonicalExists = Test-Path -LiteralPath $canonicalConfigPath -PathType Leaf
+$legacyExists = Test-Path -LiteralPath $legacyConfigPath -PathType Leaf
+
+if ($canonicalExists -and $legacyExists) {
+    Write-Error 'Both .ps-twin.json and legacy .git-push-twin.json exist. Migrate settings into .ps-twin.json and remove the legacy file to avoid ambiguous policy.'
+    exit 3
+}
+
+$configPath = $null
+if ($canonicalExists) {
+    $configPath = $canonicalConfigPath
+}
+elif ($legacyExists) {
+    $configPath = $legacyConfigPath
+    Write-Warning 'Using legacy .git-push-twin.json. Rename it to .ps-twin.json after confirming its contents.'
+}
+
+if ($null -ne $configPath) {
     try {
         $parsed = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
         $propertyNames = @($parsed.PSObject.Properties.Name)
@@ -133,7 +151,7 @@ if (Test-Path -LiteralPath $configPath -PathType Leaf) {
         }
     }
     catch {
-        Write-Error "Invalid .git-push-twin.json: $($_.Exception.Message)"
+        Write-Error "Invalid $([IO.Path]::GetFileName($configPath)): $($_.Exception.Message)"
         exit 3
     }
 }
@@ -185,13 +203,13 @@ foreach ($relative in $tracked) {
 }
 
 if ($findings.Count -gt 0) {
-    Write-Error ("git-push-twin scrub gate found possible sensitive material in tracked files:`n  - " + (($findings | Sort-Object -Unique) -join "`n  - "))
-    Write-Error 'Review the files before publishing. Add only deliberate false-positive paths to .git-push-twin.json excludePaths.'
+    Write-Error ("PS-twin scrub gate found possible sensitive material in tracked files:`n  - " + (($findings | Sort-Object -Unique) -join "`n  - "))
+    Write-Error 'Review the files before publishing. Add only deliberate false-positive paths to .ps-twin.json excludePaths.'
     exit 4
 }
 
 $head = (Invoke-Git -Arguments @('rev-parse', 'HEAD')).Output[-1].ToString().Trim()
-$checksumDir = Join-Path $gitDir 'git-push-twin/checksums'
+$checksumDir = Join-Path $gitDir 'ps-twin/checksums'
 New-Item -ItemType Directory -Force -Path $checksumDir | Out-Null
 
 $manifestPath = Join-Path $checksumDir "$head.sha256"
@@ -213,8 +231,8 @@ foreach ($relative in ($tracked | Sort-Object)) {
     (New-Object System.Text.UTF8Encoding($false))
 )
 
-Write-Host "git-push-twin: scrub gate passed."
-Write-Host "git-push-twin: SHA-256 manifest: $manifestPath"
-Write-Host "git-push-twin: commit: $head"
+Write-Host "PS-twin: scrub gate passed."
+Write-Host "PS-twin: SHA-256 manifest: $manifestPath"
+Write-Host "PS-twin: commit: $head"
 
 exit 0

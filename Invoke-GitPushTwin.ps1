@@ -38,7 +38,7 @@ if ($inside.ExitCode -ne 0 -or ($inside.Output -join '').Trim() -ne 'true') {
 
 $branchResult = Invoke-Git -Arguments @('symbolic-ref', '--quiet', '--short', 'HEAD') -AllowFailure
 if ($branchResult.ExitCode -ne 0) {
-    throw 'Detached HEAD detected. Check out a branch before using git-push-twin.'
+    throw 'Detached HEAD detected. Check out a branch before using PS-twin.'
 }
 
 $branch = $branchResult.Output[-1].ToString().Trim()
@@ -54,7 +54,7 @@ if ($pushSpec -notmatch '^HEAD:refs/heads/(.+)$') {
 }
 $configuredBranch = $Matches[1]
 if ($configuredBranch -ne $branch) {
-    throw "git-push-twin is configured for branch '$configuredBranch', but the current branch is '$branch'. Re-run the installer intentionally before changing the mirrored branch."
+    throw "PS-twin is configured for branch '$configuredBranch', but the current branch is '$branch'. Re-run the installer intentionally before changing the publication branch."
 }
 
 $urlsResult = Invoke-Git -Arguments @('remote', 'get-url', '--push', '--all', 'twin') -AllowFailure
@@ -75,7 +75,7 @@ if ($DryRun) {
     $pushArgs += '--dry-run'
 }
 
-Write-Host "git-push-twin: pushing $head on branch '$branch' to $($urls.Count) destination(s)..."
+Write-Host "PS-twin: pushing $head on branch '$branch' to $($urls.Count) destination(s)..."
 $push = Invoke-Git -Arguments $pushArgs -AllowFailure
 $push.Output | ForEach-Object { Write-Host $_ }
 
@@ -84,7 +84,7 @@ if ($push.ExitCode -ne 0) {
 }
 
 if ($DryRun) {
-    Write-Host 'git-push-twin: dry run complete; remote verification skipped.'
+    Write-Host 'PS-twin: dry run complete; remote verification skipped.'
     exit 0
 }
 
@@ -114,8 +114,8 @@ foreach ($url in $urls) {
 }
 
 if ($failures.Count -gt 0) {
-    Write-Error ("git-push-twin verification failed:`n  - " + ($failures -join "`n  - "))
+    Write-Error ("PS-twin verification failed:`n  - " + ($failures -join "`n  - "))
     exit 5
 }
 
-Write-Host "git-push-twin: all $($urls.Count) destination(s) verified at $head."
+Write-Host "PS-twin: all $($urls.Count) destination(s) verified at $head."

@@ -2,7 +2,7 @@
 
 ## Status
 
-This document describes a proposed extension to `git-push-twin`. It is a design concept, not a claim about current Git syntax or implemented behavior.
+This document describes a proposed extension to PS-twin. It is a design concept, not a claim about current Git syntax or implemented behavior.
 
 The proposal uses a deliberately restricted arithmetic expression language in PowerShell to give related Git repositories human-readable, machine-verifiable semantic identifiers while Git object IDs remain the authoritative identity of repository content.
 
@@ -16,7 +16,7 @@ Equivalent arithmetic expressions can be distinct strings while resolving to the
 12/4 = 3
 ```
 
-OSWAP / Git Push Twin can use that property to represent a repository family whose members are related but independently identifiable.
+OSWAP / PS-twin can use that property to represent a repository family whose members are related but independently identifiable.
 
 Example assignment:
 

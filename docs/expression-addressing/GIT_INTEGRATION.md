@@ -2,7 +2,7 @@
 
 ## Existing behavior remains native Git
 
-The current `git-push-twin` architecture configures a normal Git remote named `twin` with ordered push URLs.
+The current PS-twin Git adapter configures a normal Git remote named `twin` with ordered push URLs.
 
 That behavior should remain usable without the expression layer.
 

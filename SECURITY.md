@@ -2,9 +2,11 @@
 
 ## Credential handling
 
-`git-push-twin` does not require or store Git hosting credentials.
+PS-twin does not require or store repository-hosting credentials.
 
-Use the authentication mechanism provided by Git and your hosting service, such as SSH keys, Git Credential Manager, or a credential helper. Do not place personal access tokens, passwords, private keys, or other secrets in `.git-push-twin.json`, repository URLs, source files, examples, or commit messages.
+Use the authentication mechanism provided by Git and the selected hosting service, such as SSH keys, Git Credential Manager, or a credential helper. Do not place personal access tokens, passwords, private keys, or other secrets in `.ps-twin.json`, repository URLs, source files, examples, or commit messages.
+
+The legacy `.git-push-twin.json` configuration filename remains readable during migration. New configuration should use `.ps-twin.json`; if both files exist, the safety hook fails closed rather than guessing which policy is authoritative.
 
 The installer refuses HTTP/SSH-style URLs that appear to contain inline username/password-style credentials.
 
@@ -13,6 +15,8 @@ The installer refuses HTTP/SSH-style URLs that appear to contain inline username
 The pre-push hook performs heuristic secret detection against tracked text files and blocks a push when it finds likely private keys, common GitHub token formats, AWS access-key IDs, or generic secret assignments.
 
 This is a safety layer, not a complete secret-scanning product. False negatives and false positives are possible.
+
+For new installations, PS-twin stores generated checksum manifests under `.git/ps-twin/checksums/`. Older `.git/git-push-twin/` support data may remain in an existing checkout until the operator deliberately removes it after migration.
 
 If a secret was already committed:
 

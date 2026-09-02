@@ -2,7 +2,7 @@
 
 Status: draft specification scaffold.
 
-This directory separates the proposed Order-of-Operations addressing layer from the existing native Git `twin` remote architecture.
+This directory separates the proposed Order-of-Operations addressing layer from the existing PS-twin Git adapter and native Git `twin` remote architecture.
 
 The core model is:
 
@@ -24,7 +24,7 @@ The expression layer is not native Git syntax and must not execute arbitrary Pow
 
 - `EXPRESSION_SPEC.md` — grammar, identities, Roman numerals, canonicalization.
 - `EXECUTION_MODEL.md` — safe evaluation and infrastructure-resolution pipeline.
-- `GIT_INTEGRATION.md` — integration with `git-push-twin` without changing Git itself.
+- `GIT_INTEGRATION.md` — integration with PS-twin without changing Git itself.
 - `PROVENANCE_MODEL.md` — data-history and reproducibility fields.
 - `SECURITY_MODEL.md` — parser and execution safety boundaries.
 

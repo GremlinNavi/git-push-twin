@@ -47,7 +47,7 @@ $repoRoot = (Invoke-Git -Arguments @('rev-parse', '--show-toplevel')).Output[-1]
 if ([string]::IsNullOrWhiteSpace($Branch)) {
     $branchResult = Invoke-Git -Arguments @('symbolic-ref', '--quiet', '--short', 'HEAD') -AllowFailure
     if ($branchResult.ExitCode -ne 0) {
-        throw 'Detached HEAD detected. Supply -Branch explicitly after checking out the branch you intend to mirror.'
+        throw 'Detached HEAD detected. Supply -Branch explicitly after checking out the branch you intend to publish.'
     }
     $Branch = $branchResult.Output[-1].ToString().Trim()
 }
@@ -75,11 +75,15 @@ foreach ($url in $RepositoryUrl) {
 
 $existing = Invoke-Git -Arguments @('remote', 'get-url', 'twin') -AllowFailure
 if ($existing.ExitCode -eq 0) {
-    $managed = Invoke-Git -Arguments @('config', '--get', 'remote.twin.gitPushTwinManaged') -AllowFailure
-    $isManaged = ($managed.ExitCode -eq 0 -and ($managed.Output -join '').Trim() -eq 'true')
+    $managed = Invoke-Git -Arguments @('config', '--get', 'remote.twin.psTwinManaged') -AllowFailure
+    $legacyManaged = Invoke-Git -Arguments @('config', '--get', 'remote.twin.gitPushTwinManaged') -AllowFailure
+    $isManaged = (
+        ($managed.ExitCode -eq 0 -and ($managed.Output -join '').Trim() -eq 'true') -or
+        ($legacyManaged.ExitCode -eq 0 -and ($legacyManaged.Output -join '').Trim() -eq 'true')
+    )
 
     if (-not $isManaged -and -not $Force) {
-        throw "A remote named 'twin' already exists and is not marked as managed by git-push-twin. Re-run with -Force only if you intentionally want to replace that remote."
+        throw "A remote named 'twin' already exists and is not marked as managed by PS-twin. Re-run with -Force only if you intentionally want to replace that remote."
     }
 
     Invoke-Git -Arguments @('remote', 'remove', 'twin') | Out-Null
@@ -93,6 +97,9 @@ foreach ($url in $normalized) {
 
 Invoke-Git -Arguments @('config', '--local', '--replace-all', 'remote.twin.push', "HEAD:refs/heads/$Branch") | Out-Null
 Invoke-Git -Arguments @('config', '--local', '--replace-all', 'remote.twin.skipDefaultUpdate', 'true') | Out-Null
+Invoke-Git -Arguments @('config', '--local', '--replace-all', 'remote.twin.psTwinManaged', 'true') | Out-Null
+# Retain the legacy marker during the compatibility window so older PS-twin installs
+# still recognize a remote upgraded by this version.
 Invoke-Git -Arguments @('config', '--local', '--replace-all', 'remote.twin.gitPushTwinManaged', 'true') | Out-Null
 
 if (-not $SkipHook) {
@@ -102,7 +109,7 @@ if (-not $SkipHook) {
     }
 
     $hooksDir = Join-Path $gitDir 'hooks'
-    $supportDir = Join-Path $gitDir 'git-push-twin'
+    $supportDir = Join-Path $gitDir 'ps-twin'
     New-Item -ItemType Directory -Force -Path $hooksDir, $supportDir | Out-Null
 
     $sourcePrePush = Join-Path $PSScriptRoot 'scripts/pre-push.ps1'
@@ -117,14 +124,18 @@ if (-not $SkipHook) {
 
     if (Test-Path -LiteralPath $hookPath -PathType Leaf) {
         $existingHook = Get-Content -LiteralPath $hookPath -Raw -ErrorAction SilentlyContinue
-        if ($existingHook -notmatch 'git-push-twin-managed-hook') {
-            throw "A pre-push hook already exists at '$hookPath'. git-push-twin will not overwrite another tool's hook. Re-run with -SkipHook and integrate scripts/pre-push.ps1 into your existing hook."
+        $isManagedHook = (
+            $existingHook -match 'ps-twin-managed-hook' -or
+            $existingHook -match 'git-push-twin-managed-hook'
+        )
+        if (-not $isManagedHook) {
+            throw "A pre-push hook already exists at '$hookPath'. PS-twin will not overwrite another tool's hook. Re-run with -SkipHook and integrate scripts/pre-push.ps1 into your existing hook."
         }
     }
 
     $hook = @'
 #!/bin/sh
-# git-push-twin-managed-hook
+# ps-twin-managed-hook
 set -eu
 
 repo_root="$(git rev-parse --show-toplevel)"
@@ -135,7 +146,7 @@ case "$git_dir" in
   *) git_dir="$repo_root/$git_dir" ;;
 esac
 
-script="$git_dir/git-push-twin/pre-push.ps1"
+script="$git_dir/ps-twin/pre-push.ps1"
 
 if command -v pwsh >/dev/null 2>&1; then
   exec pwsh -NoLogo -NoProfile -File "$script" "$@"
@@ -144,7 +155,7 @@ elif command -v powershell.exe >/dev/null 2>&1; then
 elif command -v powershell >/dev/null 2>&1; then
   exec powershell -NoLogo -NoProfile -File "$script" "$@"
 else
-  echo "git-push-twin: PowerShell is required for the pre-push safety hook." >&2
+  echo "PS-twin: PowerShell is required for the pre-push safety hook." >&2
   exit 1
 fi
 '@
@@ -158,13 +169,13 @@ fi
 }
 
 Write-Host ''
-Write-Host "git-push-twin configured for branch '$Branch'."
+Write-Host "PS-twin configured for branch '$Branch'."
 Write-Host 'Push destinations:'
 foreach ($url in $normalized) {
     Write-Host "  - $url"
 }
 Write-Host ''
-Write-Host 'Use:'
+Write-Host 'Current Git transport command:'
 Write-Host '  git push twin'
 Write-Host ''
-Write-Host 'For post-push verification, invoke the tool repository''s Invoke-GitPushTwin.ps1 while your current directory remains this target repository.'
+Write-Host 'For post-push verification, invoke the Git adapter helper Invoke-GitPushTwin.ps1 while your current directory remains this target repository.'

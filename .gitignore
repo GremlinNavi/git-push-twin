@@ -1,4 +1,7 @@
-# Local configuration used by a target repository.
+# Local PS-twin configuration used by a target repository.
+.ps-twin.json
+
+# Legacy configuration name accepted during migration.
 .git-push-twin.json
 
 # Local packaging/test output.

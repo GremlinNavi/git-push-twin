@@ -4,7 +4,7 @@ Safely retrieves and integrates a branch from every repository configured on the
 
 .DESCRIPTION
 Git supports multiple push URLs for one remote, but a normal `git pull twin` only uses the remote's fetch URL.
-This script implements the multi-source pull semantics proposed by Git Push Twin / OSWAP:
+This script implements the multi-source pull semantics proposed by PS-twin / OSWAP:
 
 1. Read every configured push URL from remote.twin.pushurl.
 2. Fetch the requested branch independently from every twin source into temporary local refs.
@@ -146,7 +146,7 @@ $tempRefs = New-Object System.Collections.Generic.List[string]
 $fetchedCommits = New-Object System.Collections.Generic.List[string]
 
 try {
-    Write-Host "Twin pull preflight"
+    Write-Host "PS-twin pull preflight"
     Write-Host "Repository: $script:RepositoryRoot"
     Write-Host "Branch:     $Branch"
     Write-Host "Sources:    $($pushUrls.Count)"
@@ -162,7 +162,7 @@ try {
         Write-Host "Fetching $label..."
         $fetchOutput = @(& git -C $script:RepositoryRoot fetch --no-tags --quiet $url $refSpec 2>&1)
         if ($LASTEXITCODE -ne 0) {
-            throw "Failed to fetch $label. Twin pull halted without modifying the local branch.`n$($fetchOutput -join [Environment]::NewLine)"
+            throw "Failed to fetch $label. PS-twin pull halted without modifying the local branch.`n$($fetchOutput -join [Environment]::NewLine)"
         }
 
         $tempRefs.Add($tempRef)
@@ -208,7 +208,7 @@ try {
                 throw "Fast-forward failed. Twin repositories agreed, but the local branch was not modified successfully.`n$($mergeOutput -join [Environment]::NewLine)"
             }
             $mergeOutput | ForEach-Object { Write-Host $_ }
-            Write-Host "Twin pull complete: $Branch is now $consensusCommit"
+            Write-Host "PS-twin pull complete: $Branch is now $consensusCommit"
         }
         return
     }
