@@ -129,7 +129,18 @@ One server can accept a push while a later server fails. `git-push-twin` therefo
 - Technical/project slug: `git-push-twin`
 - Literal Git command: `git push twin`
 
-Git Push Twin is a standalone open-source Git utility. It is not branded as, or coupled to, any other project.
+Git Push Twin is a standalone open-source Git utility and publication infrastructure for the Open-Source World Access Project (OSWAP). It is not the OSWAP software catalogue or database, and it does not replace or rename the separate Sovereign AI Demonstrator.
+
+Canonical public repositories:
+
+- GitHub: <https://github.com/GremlinNavi/git-push-twin>
+- GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
+
+See [BRANDING.md](BRANDING.md) for the complete naming boundary.
+
+## Community
+
+Before participating, read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [SECURITY.md](SECURITY.md), and [SUPPORT.md](SUPPORT.md).
 
 ## License
 
