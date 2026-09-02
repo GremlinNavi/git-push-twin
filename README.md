@@ -1,6 +1,6 @@
-# PS-twin — Eternal Thread Twin PowerShell Architecture
+# PS-twin — OWASP Twin PowerShell Architecture
 
-PS-twin is a small, separate Git repository for one purpose: configure an Eternal Thread
+PS-twin is a small, separate Git repository for one purpose: configure an Open-Source World Access Project
 application checkout with a standard Git remote named `twin`.
 
 Once configured, the deliberate paired-publication command is:
@@ -16,7 +16,7 @@ and requires an explicit operator action every time.
 
 ## Install the twin command architecture
 
-Clone or otherwise obtain PS-twin. From the Eternal Thread
+Clone or otherwise obtain PS-twin. From the Open-Source World Access Project
 application checkout, run this repository's installer by path:
 
 ```powershell
@@ -65,7 +65,7 @@ reset, or fabricate a merge merely to conceal the difference.
 ## Default paired repositories
 
 - GitHub: `https://github.com/GremlinNavi/sovereign-ai-framework.git`
-- GitLab: `https://gitlab.com/eternal-thread-group/sovereign-ai-framework.git`
+- GitLab: `https://gitlab.com/GremlinNavi-group/sovereign-ai-framework.git`
 
 The setup tool accepts a deliberate alternate pair through explicit parameters. It
 refuses an unexpected existing remote URL rather than overwriting it.
