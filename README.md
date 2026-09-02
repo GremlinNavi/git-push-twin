@@ -123,6 +123,16 @@ Multi-host publication is not an atomic distributed transaction.
 
 One server can accept a push while a later server fails. `git-push-twin` therefore treats verification as a first-class step and reports mismatched/unreachable mirrors rather than claiming rollback guarantees Git does not provide.
 
+## Design documentation
+
+Current behavior is described in this README. Proposed extensions are documented separately so experimental syntax is not confused with implemented Git behavior:
+
+- [DESIGN_DIRECTION.md](DESIGN_DIRECTION.md) — expression-driven deployment policy, sanitization, cryptographic roles, and future allocation rules.
+- [ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md](ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md) — mathematical twin/member identifiers, subset pull semantics, and human oversight records.
+- [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md) — OSWAP-owned domain addressing, DNS-safe expression aliases such as `repo9d3.oswap.ca`, wrapper normalization such as `repo(9/3).oswap.ca`, and build-date/file-tree provenance.
+
+OSWAP owns `oswap.ca`, `oswap.jp`, and `oswap.us`. Example subdomains in design documents remain proposed until their DNS, TLS, routing, and Git protocol behavior are deployed and verified.
+
 ## Project identity
 
 - Human-facing name: Git Push Twin
