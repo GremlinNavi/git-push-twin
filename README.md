@@ -89,6 +89,12 @@ See:
 - `Invoke-GitPullTwin.ps1`
 - `ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md`
 
+## Twin history reconciliation
+
+Twins that were created with unrelated Git histories must not be repaired with a force-push. PS-twin documents a two-parent reconciliation method that preserves both historical lineages while publishing one reviewed working tree and produces a commit that both existing tips can fast-forward to.
+
+See [docs/TWIN_HISTORY_RECONCILIATION.md](docs/TWIN_HISTORY_RECONCILIATION.md).
+
 ## Data-scrubbing philosophy
 
 The default scrub stage is deliberately non-destructive. It detects likely secrets and stops publication instead of silently rewriting source files.
@@ -152,6 +158,7 @@ Implemented behaviour and experimental design are intentionally separated.
 - [DESIGN_DIRECTION.md](DESIGN_DIRECTION.md) — future allocation, sanitization, cryptographic, and control-plane directions.
 - [ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md](ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md) — proposed mathematical repository-family identifiers and subset semantics.
 - [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md) — proposed OSWAP domain addressing and provenance models.
+- [docs/TWIN_HISTORY_RECONCILIATION.md](docs/TWIN_HISTORY_RECONCILIATION.md) — non-force reconciliation of twin repositories with unrelated histories.
 - `docs/expression-addressing/` — expression parsing, execution, provenance, and security design.
 
 Experimental syntax is not represented as implemented transport behaviour.
