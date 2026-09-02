@@ -123,11 +123,36 @@ Multi-host publication is not an atomic distributed transaction.
 
 One server can accept a push while a later server fails. `git-push-twin` therefore treats verification as a first-class step and reports mismatched/unreachable mirrors rather than claiming rollback guarantees Git does not provide.
 
+## Forge API independence and graceful degradation
+
+Git Push Twin uses standard Git transport as its publication path. Hosting-provider REST or GraphQL APIs, web interfaces, IDE integrations, and AI connectors are optional control surfaces; they are not required for normal twin publication when the configured Git remotes remain reachable and authenticated.
+
+A failure in one control surface must not be treated as proof that the repository itself is unavailable. These are separate failure domains:
+
+```text
+forge API or connector failure
+!= Git transport failure
+!= authentication failure
+!= repository divergence
+```
+
+For example, an integration may retain read access while losing permission to create commits or branches through a forge API. If ordinary Git credentials still permit access, the operator can continue to use the configured repository and publish through `git push twin`.
+
+Before destructive recovery or manual reconstruction, verify the underlying Git path directly:
+
+```powershell
+git remote -v
+git ls-remote twin
+git push twin --dry-run
+```
+
+A successful API call is therefore not the authoritative definition of repository availability. Git object IDs and direct Git transport checks remain the relevant evidence for repository state and publication capability.
+
 ## Design documentation
 
 Current behavior is described in this README. Proposed extensions are documented separately so experimental syntax is not confused with implemented Git behavior:
 
-- [DESIGN_DIRECTION.md](DESIGN_DIRECTION.md) — expression-driven deployment policy, sanitization, cryptographic roles, and future allocation rules.
+- [DESIGN_DIRECTION.md](DESIGN_DIRECTION.md) — expression-driven deployment policy, sanitization, cryptographic roles, control-plane independence, and future allocation rules.
 - [ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md](ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md) — mathematical twin/member identifiers, subset pull semantics, and human oversight records.
 - [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md) — OSWAP-owned domain addressing, DNS-safe expression aliases such as `repo9d3.oswap.ca`, wrapper normalization such as `repo(9/3).oswap.ca`, and build-date/file-tree provenance.
 
