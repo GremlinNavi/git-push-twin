@@ -27,6 +27,45 @@ Selection may be semi-random and may prefer geographic diversity when the config
 
 Multiple mirrors improve resilience against provider outages, accidental deletion, and single-host failure. They do not guarantee permanent availability.
 
+## Control-plane independence
+
+Git Push Twin should preserve a strict boundary between the control surface used to request an operation and the Git transport that carries repository data.
+
+Possible control surfaces include:
+
+```text
+PowerShell or another local shell
+forge web interfaces
+GitHub or GitLab APIs
+IDE integrations
+AI-agent connectors
+CI/CD systems
+future OSWAP frontends
+```
+
+None of these should become the sole authoritative path to repository state. A platform-specific API or connector can fail, lose write scope, become rate-limited, or be unavailable while the underlying Git endpoint remains reachable through normal credentials.
+
+The implementation and documentation should therefore distinguish at least four independent conditions:
+
+```text
+control-surface/API availability
+Git transport reachability
+authentication/authorization
+repository-content agreement
+```
+
+A failure in one condition must not be silently generalized into another. In particular:
+
+```text
+API failure != Git transport failure
+Git transport success != authenticated content equivalence
+successful push != verified multi-host agreement
+```
+
+Future status and verification commands should report these states separately where practical. Recovery logic should prefer direct Git inspection and object-ID comparison before destructive repair, force-push, history rewriting, or manual reconstruction.
+
+This boundary supports graceful degradation: if an IDE, AI connector, forge API, or other control plane becomes unusable, an operator can continue through a different interface as long as the configured Git endpoints and credentials remain valid.
+
 ## Data sanitization and removal
 
 The current scrub gate is intentionally non-destructive: it detects likely secrets and blocks publication rather than rewriting tracked source files.
