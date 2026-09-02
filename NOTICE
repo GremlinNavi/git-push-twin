@@ -1,8 +1,10 @@
-Git Push Twin (`git-push-twin`)
+PS-twin
 Copyright 2026 GremlinNavi
 
-Git Push Twin is a standalone open-source Git/PowerShell utility for deliberate multi-host repository publication, verification, and redundancy through the `git push twin` convention.
+PS-twin is a standalone open-source PowerShell publication, verification, and repository-redundancy utility developed for the Open-Source World Access Project (OSWAP).
 
-It is not branded as, or coupled to, any other project.
+The canonical project identity is provider agnostic. The current implementation uses standard Git transport and supports the explicit `git push twin` workflow, but GitHub, GitLab, self-hosted Git services, and future repository providers are deployment surfaces rather than the identity of the project.
 
-Licensed under the Apache License, Version 2.0.
+Historical repository URLs, filenames, archives, checksums, or compatibility-facing helpers may retain `git-push-twin` or `GitPushTwin` text where renaming would break published references or compatibility. Those occurrences do not imply provider preference.
+
+Licensed under the Apache License, Version 2.0. See LICENSE for permissions, conditions, and limitations.
