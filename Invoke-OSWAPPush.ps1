@@ -159,19 +159,24 @@ if ($text -in @('twin','push twin')) {
     throw 'Usage: Invoke-OSWAPPush.ps1 push twin=<OSWAP-ARITHMETIC> [-Execute]'
 }
 
+$resolution = $null
+if ($expression) {
+    $resolution = Resolve-OSWAPExpression $expression
+    Write-Output ($resolution | ConvertTo-Json -Compress)
+    if (-not $Execute) {
+        Write-Host 'Expression resolved in preview mode. Add -Execute to inspect the destination pool, select destinations, and request publication.'
+        return
+    }
+}
+
 & git rev-parse --is-inside-work-tree *> $null
 if ($LASTEXITCODE -ne 0) { throw 'OSWAP twin publication must run inside a Git work tree.' }
 $branch = (& git branch --show-current | Select-Object -Last 1).Trim()
 if ([string]::IsNullOrWhiteSpace($branch)) { throw 'Detached HEAD is not supported.' }
 
 $urls = Get-TwinUrls
-$resolution = $null
-if ($expression) {
-    $resolution = Resolve-OSWAPExpression $expression
-    Write-Output ($resolution | ConvertTo-Json -Compress)
-    if ($resolution.max_possible_copies -gt $urls.Count) {
-        throw "Configured destination pool cannot satisfy factor $($resolution.replication_factor)."
-    }
+if ($resolution -and $resolution.max_possible_copies -gt $urls.Count) {
+    throw "Configured destination pool cannot satisfy factor $($resolution.replication_factor)."
 }
 
 Write-Host "Branch: $branch"
@@ -186,7 +191,7 @@ if ($resolution) {
 }
 
 if (-not $Execute) {
-    Write-Host 'Preview only. Add -Execute to select destinations and request publication.'
+    Write-Host 'Preview only. Add -Execute to request publication to all configured destinations.'
     return
 }
 
