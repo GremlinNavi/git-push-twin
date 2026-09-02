@@ -1,50 +1,63 @@
-# Git Push Twin branding
+# PS-twin branding
 
-## Canonical names
+## Canonical identity
 
-- Display name: **Git Push Twin**
-- Repository and package identifier: `git-push-twin`
-- Literal Git command: `git push twin`
-- Git remote name: `twin`
+- Display name: `PS-twin`
+- Intended repository/package identifier: `ps-twin`
+- Primary implementation language: PowerShell
+- Current Git transport command: `git push twin`
+- Current Git remote name: `twin`
 
-Use the display name in prose and headings. Use the identifier in URLs, paths, archive
-names, and package metadata. Use the command form only in code or command examples.
+`PS-twin` is the project identity. Git, GitHub, GitLab, self-hosted Git servers, and future repository providers are transport or hosting surfaces rather than the identity of the project.
+
+The name deliberately avoids privileging a particular repository provider. The current implementation uses standard Git transport because Git is broadly interoperable, but OSWAP architecture should remain free to add other repository or archival adapters without requiring another project rename.
 
 ## Open-Source World Access Project relationship
 
-Git Push Twin is publication infrastructure for the **Open-Source World Access
-Project (OSWAP)**. It helps an operator publish and verify approved Git destinations.
-It is not the OSWAP software catalogue or database, and it does not replace or rename
-the separate Sovereign AI Demonstrator.
+PS-twin is open-source publication and repository-redundancy infrastructure for the Open-Source World Access Project (OSWAP). It helps an operator configure, publish, compare, and verify approved repository destinations.
+
+It is not the OSWAP software catalogue or database, and it does not replace or rename the separate Sovereign AI Demonstrator.
 
 ## OSWAP-owned domains
 
-OSWAP controls the following public domain namespaces:
+OSWAP owns the following public domain names:
 
 - `oswap.ca`
 - `oswap.jp`
 - `oswap.us`
 
-These domains may be referenced in architecture, protocol, and documentation examples. Domain ownership must not be confused with deployment status: a proposed subdomain such as `repo9d3.oswap.ca`, `repo9d3.oswap.jp`, or `repo9d3.oswap.us` is not operational merely because its parent domain is owned. DNS, TLS, routing, Git protocol behavior, and repository equivalence must be separately deployed and verified.
+Planned repository-access namespaces include:
 
-Order of Operations addressing may use DNS-safe expression labels such as `9d3` for the canonical expression `9/3`. The canonical mathematical expression remains metadata; the encoded label exists for transport surfaces that cannot represent the raw arithmetic form.
+- `repo.oswap.ca`
+- `repo.oswap.jp`
+- `repo.oswap.us`
+
+Domain ownership must not be confused with deployment status. A planned subdomain is not operational until its DNS, TLS, routing, repository protocol behaviour, and equivalence rules are deployed and verified.
+
+Order-of-Operations addressing may additionally use DNS-safe expression labels such as `9d3` for the canonical expression `9/3`. The mathematical expression remains metadata; the encoded label exists for transport surfaces that cannot represent the raw arithmetic form.
 
 See [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md).
 
-## Canonical public repositories
+## Current public repositories
+
+The connected forge projects currently retain the historical `git-push-twin` path:
 
 - GitHub: <https://github.com/GremlinNavi/git-push-twin>
 - GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
 
-## Retired name
+Those URLs are hosting identifiers, not the canonical project name. They should be renamed to a `ps-twin` form when the repository-host account settings are changed. Until then, existing URLs remain valid transition paths.
 
-`PS-twin` is retired. Do not use it in current project names, paths, documentation,
-configuration, or new release assets. An immutable historical filename or release
-record may retain the old text when renaming it would invalidate a checksum, signature,
-or published link; label that occurrence as legacy rather than silently rewriting it.
+## Compatibility names
+
+`Git Push Twin` and `git-push-twin` are retired as project branding. They may still appear where necessary to describe:
+
+- the literal `git push twin` command;
+- compatibility-facing script filenames such as `Invoke-GitPushTwin.ps1`;
+- immutable historical archives, checksums, commits, or links; or
+- current forge paths that have not yet been renamed.
+
+Do not interpret those compatibility references as provider preference.
 
 ## Claims and tone
 
-Be precise, calm, and candid. Mirroring improves resilience but does not guarantee
-permanent access, atomic multi-host publication, authenticity, or backup completeness.
-Avoid unsupported claims of universal access, security, endorsement, or availability.
+Be precise, calm, and candid. Multi-host publication improves resilience but does not guarantee permanent access, atomic distributed publication, authenticity, or backup completeness. Avoid unsupported claims of universal access, security, endorsement, or availability.
