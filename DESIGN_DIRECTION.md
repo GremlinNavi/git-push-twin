@@ -4,24 +4,13 @@ This document records planned extensions to PS-twin. Unless a feature is explici
 
 ## Expression-driven deployment policy
 
-A future `twin=x` policy layer may allow a small arithmetic expression to resolve deployment parameters while leaving the underlying transport and PowerShell operations explicit and auditable.
+Expression-driven twin publication is now implemented in `Invoke-OSWAPPush.ps1` for the restricted `push twin=<expression>` path. Arithmetic remains a policy input rather than a replacement for reviewed transport code.
 
-Examples:
-
-```text
-twin=(2+1)        -> select 3 approved destinations
-quorum=(6/2)+1    -> require 4 successful destination verifications
-retries=(2+1)     -> allow 3 retry attempts
-retain=(3*4)      -> retain 12 local verification records
-```
-
-The expression language should be deliberately tiny. It may support numeric literals, parentheses, and approved arithmetic operators such as `+`, `-`, `*`, `/`, and `%`. It must not evaluate arbitrary PowerShell and must not use `Invoke-Expression`.
-
-Arithmetic is a policy input, not a replacement for the implementation. Transport adapters, loops, validation, sanitization, cryptography, retries, and error handling remain ordinary reviewed code.
+Future work should focus on cross-implementation conformance, expression-aware pull selection, stronger remote commit verification, and provenance records rather than expanding the DSL into a general-purpose scripting language.
 
 ## Dynamic repository allocation
 
-`twin=x` may eventually select `x` destinations from a repository pool explicitly configured by the operator.
+`push twin=<expression>` now selects complete destinations from a repository pool explicitly configured by the operator. Fractional results represent a probability of one additional whole destination; they never represent a partial repository.
 
 Selection may be semi-random and may prefer geographic diversity when the configuration contains operator-supplied location metadata. The tool must never discover arbitrary third-party repositories and attempt to publish to them. Every destination must be pre-approved and writable by the operator.
 
@@ -121,7 +110,7 @@ A future policy layer could also resolve non-secret operational parameters such 
 
 ## Verification and manifests
 
-Future multi-destination deployment should continue to distinguish `publication succeeded` from `deployment verified`.
+Multi-destination deployment must continue to distinguish `publication succeeded` from `deployment verified`.
 
 A deployment record may include:
 

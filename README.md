@@ -25,6 +25,16 @@ OSWAP syntax is not PowerShell syntax. PowerShell is the host and prompt environ
 
 The reference OSWAP push implementation never uses `Invoke-Expression`.
 
+## Current implementation status
+
+`Invoke-OSWAPPush.ps1` currently implements restricted `push twin=<expression>` preview and execution, including fractional whole-copy replication, randomized destination selection without replacement, and explicit `TWIN` confirmation before publication.
+
+`Invoke-GitPullTwin.ps1` implements multi-source retrieval independently of the expression-addressing draft: it fetches each configured twin source, compares commit IDs, refuses disagreement, and only fast-forwards a clean local branch when the twin sources agree.
+
+The expression-addressing reference parser and the PowerShell publication parser are still being converged. Features not shared by both implementations must not be presented as portable OSWAP syntax until they have matching conformance coverage.
+
+See [Repository-native execution model](docs/REPOSITORY_NATIVE_EXECUTION.md) for the lightweight shell/Git architecture, optional GUI boundary, capability-based hardware portability, and provenance model.
+
 ## Destination pools
 
 The `twin` Git remote supplies the eligible push URL pool. A factor of `3.5` requires at least four configured push URLs because the fourth whole copy can be selected.

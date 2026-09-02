@@ -1,6 +1,8 @@
 # OSWAP Expression Addressing
 
-Status: draft specification scaffold.
+Status: draft specification scaffold with a working side-effect-free reference parser and separate PowerShell publication implementation.
+
+OSWAP Standard 0.2.0 is normative for current `push twin=<expression>` arithmetic, including `^` exponentiation. This draft additionally explores canonical Roman-numeral lexical forms and exact rational arithmetic. Until the reference parser, PowerShell parser, and conformance vectors implement the same feature set, those differences are experimental rather than portable syntax guarantees.
 
 This directory separates the proposed Order-of-Operations addressing layer from the existing PS-twin Git adapter and native Git `twin` remote architecture.
 
