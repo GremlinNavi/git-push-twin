@@ -1,6 +1,6 @@
-# PS-twin — Open-Source World Access Project Twin PowerShell Architecture
+# git push twin — Open-Source World Access Project Twin PowerShell Architecture
 
-PS-twin is a small, separate Git repository for one purpose: configure an Open-Source World Access Project
+git push twin is a small, separate Git repository for one purpose: configure an Open-Source World Access Project
 application checkout with a standard Git remote named `twin`.
 
 Once configured, the deliberate paired-publication command is:
@@ -16,17 +16,17 @@ and requires an explicit operator action every time.
 
 ## Install the twin command architecture
 
-Clone or otherwise obtain PS-twin. From the Open-Source World Access Project
+Clone or otherwise obtain git push twin. From the Open-Source World Access Project
 application checkout, run this repository's installer by path:
 
 ```powershell
-C:\path\to\PS-twin\installer.bat
+C:\path\to\git-push-twin\installer.bat
 ```
 
 Or pass the target checkout explicitly:
 
 ```powershell
-C:\path\to\PS-twin\installer.bat C:\path\to\sovereign-ai-framework
+C:\path\to\git-push-twin\installer.bat C:\path\to\sovereign-ai-framework
 ```
 
 The installer makes **local Git configuration changes only**. It does not access a
@@ -70,18 +70,18 @@ reset, or fabricate a merge merely to conceal the difference.
 The setup tool accepts a deliberate alternate pair through explicit parameters. It
 refuses an unexpected existing remote URL rather than overwriting it.
 
-PS-twin is separate from the application repository and does
+git push twin is separate from the application repository and does
 not itself claim a remote home until a dedicated GitHub/GitLab repository name and
 visibility have been chosen. See [TWIN_PROTOCOL.md](TWIN_PROTOCOL.md) and
 [ARCHITECTURE_SCOPE.md](ARCHITECTURE_SCOPE.md).
 
 ## Archive
 
-PS-twin is packaged as a source archive with a matching SHA-256 manifest under
+git push twin is packaged as a source archive with a matching SHA-256 manifest under
 `releases/v0.1.0-beta.1/`. Verify it before extraction:
 
 ```powershell
-.\tools\Test-PS-twinRelease.ps1 `
+.\tools\Test-git-push-twin-Release.ps1 `
   -ChecksumFile .\releases\v0.1.0-beta.1\SHA256SUMS.txt `
-  -ReleaseAsset .\releases\v0.1.0-beta.1\ps-twin-0.1.0-beta.1-source.zip
+  -ReleaseAsset .\releases\v0.1.0-beta.1\git-push-twin-0.1.0-beta.1-source.zip
 ```
