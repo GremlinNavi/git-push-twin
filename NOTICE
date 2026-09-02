@@ -1,10 +1,9 @@
-PS-twin — Eternal Thread Twin PowerShell Architecture
+Git Push Twin — paired Git publication architecture
 Copyright © 2026 Nemi Prowse
 
 This repository contains a Git/PowerShell configuration architecture for deliberate
-paired publication to the independently managed Eternal Thread GitHub and GitLab
-repositories. It does not claim Government of Canada ownership, endorsement, or
-production readiness.
+paired publication to operator-approved GitHub and GitLab repositories. It does not
+claim Government of Canada ownership, endorsement, or production readiness.
 
 Licensed under the Apache License, Version 2.0. See LICENSE for the permissions,
 conditions, and limitations that apply to use, redistribution, and derivative works.

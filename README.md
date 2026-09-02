@@ -1,7 +1,9 @@
-# git push twin — Open-Source World Access Project Twin PowerShell Architecture
+# Git Push Twin
 
-git push twin is a small, separate Git repository for one purpose: configure an Open-Source World Access Project
-application checkout with a standard Git remote named `twin`.
+Git Push Twin is a small, separate publication-infrastructure repository for the
+Open-Source World Access Project (OSWAP). It configures a selected Git checkout with
+a standard remote named `twin`. It is not the OSWAP software catalogue or database,
+and it does not replace or rename the separate Sovereign AI Demonstrator.
 
 Once configured, the deliberate paired-publication command is:
 
@@ -16,8 +18,8 @@ and requires an explicit operator action every time.
 
 ## Install the twin command architecture
 
-Clone or otherwise obtain git push twin. From the Open-Source World Access Project
-application checkout, run this repository's installer by path:
+Clone or otherwise obtain Git Push Twin. From the checkout to configure, run this
+repository's installer by path:
 
 ```powershell
 C:\path\to\git-push-twin\installer.bat
@@ -70,18 +72,27 @@ reset, or fabricate a merge merely to conceal the difference.
 The setup tool accepts a deliberate alternate pair through explicit parameters. It
 refuses an unexpected existing remote URL rather than overwriting it.
 
-git push twin is separate from the application repository and does
-not itself claim a remote home until a dedicated GitHub/GitLab repository name and
-visibility have been chosen. See [TWIN_PROTOCOL.md](TWIN_PROTOCOL.md) and
+Git Push Twin is maintained publicly at
+[GitHub](https://github.com/GremlinNavi/git-push-twin) and
+[GitLab](https://gitlab.com/GremlinNavi-group/git-push-twin). See
+[BRANDING.md](BRANDING.md), [TWIN_PROTOCOL.md](TWIN_PROTOCOL.md), and
 [ARCHITECTURE_SCOPE.md](ARCHITECTURE_SCOPE.md).
 
 ## Archive
 
-git push twin is packaged as a source archive with a matching SHA-256 manifest under
-`releases/v0.1.0-beta.1/`. Verify it before extraction:
+Git Push Twin v0.1.0-beta.1 is packaged as a source archive with a matching SHA-256
+manifest under `releases/v0.1.0-beta.1/`. The existing verification script and archive
+retain legacy `PS-twin`/`ps-twin` filenames; changing implementation filenames is
+outside this documentation-only update. Verify the archive before extraction:
 
 ```powershell
-.\tools\Test-git-push-twin-Release.ps1 `
+.\tools\Test-PS-twinRelease.ps1 `
   -ChecksumFile .\releases\v0.1.0-beta.1\SHA256SUMS.txt `
-  -ReleaseAsset .\releases\v0.1.0-beta.1\git-push-twin-0.1.0-beta.1-source.zip
+  -ReleaseAsset .\releases\v0.1.0-beta.1\ps-twin-0.1.0-beta.1-source.zip
 ```
+
+## Community
+
+Before participating, read [CONTRIBUTING.md](CONTRIBUTING.md),
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [SECURITY.md](SECURITY.md), and
+[SUPPORT.md](SUPPORT.md).
