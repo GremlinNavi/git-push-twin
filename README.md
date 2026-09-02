@@ -150,6 +150,30 @@ Planned repository-access namespaces are:
 
 These subdomains are roadmap infrastructure until DNS, TLS, routing, protocol behaviour, and repository equivalence are deployed and verified.
 
+## OSWAP installation wizard integration
+
+The planned OSWAP package command for this repository is:
+
+```powershell
+oswap install twin
+```
+
+The recommended full-environment command is planned as:
+
+```powershell
+oswap install
+```
+
+Those commands are interface targets, not currently implemented global commands. The current acquisition primitive may use:
+
+```powershell
+gh repo clone GremlinNavi/git-push-twin
+```
+
+The OSWAP wizard should keep the GitHub and GitLab coordinates as equivalent package sources, verify the checkout before invoking `Install-GitPushTwin.ps1`, preview any repository-local Git configuration changes, and never run `git push twin` merely because installation was requested.
+
+See [docs/OSWAP_INSTALLER_INTEGRATION.md](docs/OSWAP_INSTALLER_INTEGRATION.md) for the package role, source-selection rules, idempotency states, safety boundaries, and planned `oswap install twin` lifecycle.
+
 ## Design documentation
 
 Implemented behaviour and experimental design are intentionally separated.
@@ -159,6 +183,7 @@ Implemented behaviour and experimental design are intentionally separated.
 - [ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md](ORDER_OF_OPERATIONS_TWIN_IDENTIFIERS.md) — proposed mathematical repository-family identifiers and subset semantics.
 - [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md) — proposed OSWAP domain addressing and provenance models.
 - [docs/TWIN_HISTORY_RECONCILIATION.md](docs/TWIN_HISTORY_RECONCILIATION.md) — non-force reconciliation of twin repositories with unrelated histories.
+- [docs/OSWAP_INSTALLER_INTEGRATION.md](docs/OSWAP_INSTALLER_INTEGRATION.md) — planned integration with the OSWAP PowerShell install wizard.
 - `docs/expression-addressing/` — expression parsing, execution, provenance, and security design.
 
 Experimental syntax is not represented as implemented transport behaviour.
