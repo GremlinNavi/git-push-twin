@@ -4,6 +4,8 @@
 
 This repository adopts [OSWAP Standard 0.2.0](OSWAP_STANDARD.md) and its [intent documentation](OSWAP_INTENT.md). OSWAP-authored code and documentation here are Apache-2.0 licensed.
 
+Development history: [September 2, 2026 OSWAP branding and Twin transport session](docs/development-history/2026-09-02-oswap-branding-and-twin-session.md).
+
 ## Command hierarchy
 
 The canonical OSWAP publication path is `oswap upload twin=N`. This repository supplies its transport backend. `Invoke-GitPushTwin.ps1` and the literal `git push twin` command remain available for configured all-destination compatibility pushes.
