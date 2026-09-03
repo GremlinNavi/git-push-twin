@@ -5,7 +5,7 @@ set "TWIN_ARCHITECTURE_ROOT=%~dp0"
 set "TWIN_TARGET=%~1"
 if "%TWIN_TARGET%"=="" set "TWIN_TARGET=%CD%"
 
-echo PS-twin Git remote installer
+echo OSWAP Twin Transport Git remote installer
 echo Target checkout: %TWIN_TARGET%
 echo.
 
@@ -14,7 +14,7 @@ set "TWIN_EXIT=%ERRORLEVEL%"
 if not "%TWIN_EXIT%"=="0" (
     echo.
     echo Twin setup did not complete. No network or remote repository change was made.
-    echo Run this installer from an Eternal Thread checkout, or pass that checkout path as its first argument.
+    echo Run this installer from the approved application checkout, or pass that checkout path as its first argument.
     exit /b %TWIN_EXIT%
 )
 

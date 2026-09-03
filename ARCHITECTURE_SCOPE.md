@@ -1,14 +1,14 @@
-# PS-twin scope
+# OSWAP Twin Transport scope
 
-PS-twin contains only the Windows batch entry point, PowerShell setup tool,
-read-only verifier, documentation, and licensing material required to standardize the
-`git push twin` convention for an Eternal Thread checkout.
+OSWAP Twin Transport contains the Windows batch entry point, PowerShell setup and
+verification tools, documentation, tests, and licensing material required to support
+the `twin` repository-transport convention for an approved application checkout.
 
 It intentionally does not contain:
 
-- Eternal Thread application source or model/runtime code;
+- Sovereign AI Demonstrator or other application source/model runtime code;
 - model weights, datasets, local data, credentials, secrets, or private keys;
-- a cloud service, webhook, CI workflow, or hidden remote synchronization process;
+- a hosted synchronization service, webhook daemon, or hidden background publication process;
 - GitHub or GitLab credentials; or
 - a server-side repository created without an explicit user decision on its name and
   visibility.

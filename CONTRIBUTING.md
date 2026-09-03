@@ -1,6 +1,6 @@
-# Contributing to PS-twin
+# Contributing to OSWAP Twin Transport
 
-Thank you for helping improve PS-twin. Participation is governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Thank you for helping improve OSWAP Twin Transport. Participation is governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Before changing code
 
@@ -21,11 +21,11 @@ Use imperative, descriptive commit messages. Preserve Apache-2.0 notices and att
 
 ## Compatibility and naming
 
-Use `PS-twin` as the canonical project name and `ps-twin` as the intended repository/package identifier.
+Use `OSWAP Twin Transport` as the canonical component name. Treat `PS-twin`, `ps-twin`, and `git-push-twin` as historical, compatibility, package, or hosting identifiers where changing them would break existing references.
 
-The literal command `git push twin` describes the current Git transport workflow; it is not the project name. Existing `git-push-twin`, `GitPushTwin`, or similar text may remain only where needed for compatibility-facing filenames, historical artifacts, checksums, published links, or forge paths that have not yet been renamed.
+The canonical OSWAP publication form is `oswap upload twin=N`. The literal command `git push twin` remains a transport-level compatibility mechanism rather than the public component name. Existing compatibility names may remain in script filenames, historical artifacts, checksums, published links, package identifiers, or forge paths that have not yet been renamed.
 
-Do not frame GitHub, GitLab, or another provider as the authoritative identity of PS-twin. Provider-specific integrations should be adapters or control surfaces around the provider-agnostic project architecture.
+Do not frame GitHub, GitLab, or another provider as the authoritative identity of OSWAP Twin Transport. Provider-specific integrations should be adapters or control surfaces around the provider-agnostic project architecture.
 
 ## Review expectations
 

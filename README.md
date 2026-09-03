@@ -4,6 +4,26 @@
 
 This repository adopts [OSWAP Standard 0.2.0](OSWAP_STANDARD.md) and its [intent documentation](OSWAP_INTENT.md). OSWAP-authored code and documentation here are Apache-2.0 licensed.
 
+## Engineering status
+
+Implemented in the current source tree:
+
+- canonical `oswap upload twin=<expression>` preview and explicitly authorized execution;
+- restricted arithmetic parsing without `Invoke-Expression`;
+- fractional whole-copy replication and destination selection without replacement;
+- multi-source twin retrieval that refuses disagreement and only fast-forwards clean local history;
+- non-destructive pre-push secret screening and release/checksum verification helpers; and
+- PowerShell parser regression coverage under `tests/`.
+
+Still experimental or requiring wider validation:
+
+- cross-platform CI beyond syntax parsing;
+- convergence of all expression-addressing implementations behind one conformance suite;
+- reproducible routing/provenance manifests for semi-random selection; and
+- non-Git archival/repository adapters.
+
+Design documents describe future work explicitly and should not be read as implemented behaviour.
+
 Development history: [September 2, 2026 OSWAP branding and Twin transport session](docs/development-history/2026-09-02-oswap-branding-and-twin-session.md).
 
 ## Command hierarchy

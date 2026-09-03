@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 <#
 .SYNOPSIS
-Read-only verification of an Eternal Thread `twin` Git remote configuration.
+Read-only verification of an OSWAP Twin Transport `twin` Git remote configuration.
 
 .DESCRIPTION
 Checks the local remote URLs, ordered twin push URLs, current-branch tracking fields,
@@ -21,7 +21,7 @@ param(
     [string]$GitHubUrl = 'https://github.com/GremlinNavi/sovereign-ai-framework.git',
 
     [ValidateNotNullOrEmpty()]
-    [string]$GitLabUrl = 'https://gitlab.com/eternal-thread-group/sovereign-ai-framework.git'
+    [string]$GitLabUrl = 'https://gitlab.com/GremlinNavi-group/sovereign-ai-framework.git'
 )
 
 Set-StrictMode -Version Latest

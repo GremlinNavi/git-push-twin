@@ -5,7 +5,7 @@
 Configures a Git remote named `twin` for paired GitHub and GitLab publication.
 
 .DESCRIPTION
-This helper configures one selected Eternal Thread checkout. It keeps `origin` as the
+This helper configures one selected Sovereign AI Demonstrator or other approved application checkout. It keeps `origin` as the
 individual GitHub remote and `gitlab` as the individual GitLab remote. It creates a
 third, composite remote named `twin`: GitHub is its fetch URL and GitHub plus GitLab
 are its ordered push URLs. The current branch is configured to track `twin`, and the
@@ -42,7 +42,7 @@ param(
     [string]$GitHubUrl = 'https://github.com/GremlinNavi/sovereign-ai-framework.git',
 
     [ValidateNotNullOrEmpty()]
-    [string]$GitLabUrl = 'https://gitlab.com/eternal-thread-group/sovereign-ai-framework.git'
+    [string]$GitLabUrl = 'https://gitlab.com/GremlinNavi-group/sovereign-ai-framework.git'
 )
 
 Set-StrictMode -Version Latest
@@ -119,7 +119,7 @@ try {
         throw "Target checkout was not found: $targetRoot"
     }
     if ($targetRoot.Equals($architectureRoot, [StringComparison]::OrdinalIgnoreCase)) {
-        throw 'Refusing to configure PS-twin itself. Supply an Eternal Thread application checkout as RepositoryPath.'
+        throw 'Refusing to configure OSWAP Twin Transport itself. Supply the approved application checkout as RepositoryPath.'
     }
 
     Push-Location -LiteralPath $targetRoot
@@ -143,7 +143,7 @@ try {
             throw "Existing remote 'twin' does not match the expected GitHub fetch URL. It was left unchanged."
         }
 
-        Write-Output 'Eternal Thread twin Git configuration'
+        Write-Output 'OSWAP Twin Transport Git configuration'
         Write-Output "Target checkout: $targetRoot"
         Write-Output "Current branch: $branch"
         Write-Output "GitHub remote: origin ($($github.Url))"
