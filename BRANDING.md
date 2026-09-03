@@ -3,7 +3,7 @@
 ## Canonical identity
 
 - Display name: `OSWAP Twin Transport`
-- GitHub repository slug: `git-push-twin` (current hosting identifier)
+- GitHub repository slug: `PS-twin` (current canonical hosting identifier; the former `git-push-twin` URL redirects here)
 - GitLab repository slug: `git-push-twin` (current hosting identifier)
 - Primary implementation language: PowerShell
 - Canonical user-facing command: `oswap upload twin=N`
@@ -42,9 +42,9 @@ See [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS
 
 ## Current public repositories
 
-The connected forge projects currently use the same compatibility hosting slug on both providers:
+The connected forge projects currently use different compatibility hosting slugs:
 
-- GitHub: <https://github.com/GremlinNavi/git-push-twin>
+- GitHub: <https://github.com/GremlinNavi/PS-twin>
 - GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
 
 Those URLs are hosting identifiers, not the canonical component name. Avoid further repository renames during active development unless there is a concrete migration need; public documentation should use `OSWAP Twin Transport` and canonical OSWAP command syntax.
