@@ -1,76 +1,141 @@
-# OSWAP Twin Transport (`git-push-twin`)
+# OSWAP Twin Transport
 
-`git-push-twin` provides the Git/PowerShell transport component used by the Open-Source World Access Project for explicit multi-destination repository publication. The canonical user-facing publication form is `oswap upload twin=N`; `git push twin` remains a transport-level compatibility mechanism.
+OSWAP Twin Transport is the PowerShell/Git publication component of the Open-Source World Access Project (OSWAP). It provides preview-first, explicitly authorized multi-destination repository publication and cautious multi-source retrieval.
 
-This repository adopts [OSWAP Standard 0.2.0](OSWAP_STANDARD.md) and its [intent documentation](OSWAP_INTENT.md). OSWAP-authored code and documentation here are Apache-2.0 licensed.
+Current version: `0.1.0-beta.1`
+OSWAP Standard: `0.2.0`
+License: Apache-2.0
+Status: experimental public beta
 
-## Engineering status
+## At a glance
+
+| Concept | Meaning |
+| --- | --- |
+| `twin` | Cardinality: how many independently selected copies or sources participate. |
+| `joker` | Policy: how eligible copies or sources are selected or used. Experimental in the OSWAPSACW documentation; it is not implemented as a synonym for `twin`. |
+| `oswap upload twin=N` | Canonical user-facing publication form. |
+| `git push twin` | Compatibility transport mechanism for configured all-destination pushes. |
+| Accountability Ballchain | OSWAP accountability/provenance terminology inspired by the physical chain connecting military identity dog tags. It is not cryptocurrency or Bitcoin. |
+
+See [GLOSSARY.md](GLOSSARY.md) for terminology and implementation-status notes.
+
+## Public mirrors
+
+This project is intentionally published on more than one forge:
+
+- GitHub: <https://github.com/GremlinNavi/PS-twin>
+- GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
+
+The hosting slugs differ for compatibility reasons; the component name is `OSWAP Twin Transport`. Equivalent mirror snapshots can have different Git commit IDs when the same content is committed separately on each forge. See [MIRRORS.md](MIRRORS.md) for verification guidance.
+
+## Quick start
+
+Requirements:
+
+- Git
+- PowerShell 7+ recommended for the documented `pwsh` commands; current scripts retain Windows PowerShell 5.1 compatibility where practical
+- one or more Git remotes you are authorized to use
+
+Clone either public mirror:
+
+```powershell
+git clone https://github.com/GremlinNavi/PS-twin.git
+Set-Location PS-twin
+```
+
+Run the local test suite:
+
+```powershell
+pwsh -NoLogo -NoProfile -File ./tests/Run-All.ps1
+```
+
+Preview an OSWAP publication without writing to a remote:
+
+```powershell
+./Invoke-OSWAPPush.ps1 'upload' 'twin=(4+3)/2'
+```
+
+Execute only after reviewing the selected destinations:
+
+```powershell
+./Invoke-OSWAPPush.ps1 'upload' 'twin=(4+3)/2' -Execute
+```
+
+The executing form displays the selected destinations and requires the operator to type `TWIN` before publication.
+
+## What the current implementation does
 
 Implemented in the current source tree:
 
-- canonical `oswap upload twin=<expression>` preview and explicitly authorized execution;
-- restricted arithmetic parsing without `Invoke-Expression`;
-- fractional whole-copy replication and destination selection without replacement;
-- multi-source twin retrieval that refuses disagreement and only fast-forwards clean local history;
-- non-destructive pre-push secret screening and release/checksum verification helpers; and
-- PowerShell parser regression coverage under `tests/`.
+- parses restricted OSWAP arithmetic without `Invoke-Expression`;
+- resolves integer and fractional whole-copy replication factors;
+- selects eligible publication destinations without replacement;
+- previews publication before any remote write;
+- requires explicit operator confirmation before publication;
+- supports a configured `twin` Git remote for compatibility pushes;
+- retrieves from multiple configured sources and refuses source disagreement;
+- avoids destructive pull reconciliation and only fast-forwards clean local history;
+- includes secret-screening and release/checksum helpers; and
+- includes PowerShell syntax and documentation-semantic conformance tests.
 
 Still experimental or requiring wider validation:
 
-- cross-platform CI beyond syntax parsing;
-- convergence of all expression-addressing implementations behind one conformance suite;
-- reproducible routing/provenance manifests for semi-random selection; and
-- non-Git archival/repository adapters.
+- cross-platform behavior beyond the available test environments;
+- convergence of expression-addressing implementations behind one conformance suite;
+- reproducible routing/provenance manifests for semi-random selection;
+- non-Git archival or repository adapters; and
+- broader OSWAPSACW policy surfaces such as `joker`.
 
-Design documents describe future work explicitly and should not be read as implemented behaviour.
-
-Development history: [September 2, 2026 OSWAP branding and Twin transport session](docs/development-history/2026-09-02-oswap-branding-and-twin-session.md).
-
-## Command hierarchy
-
-The canonical OSWAP publication path is `oswap upload twin=N`. This repository supplies its transport backend. `Invoke-GitPushTwin.ps1` and the literal `git push twin` command remain available for configured all-destination compatibility pushes.
-
-The OSWAP DSL adds restricted arithmetic and semi-random destination selection:
-
-```powershell
-.\Invoke-OSWAPPush.ps1 'upload' 'twin=(4+3)/2'
-.\Invoke-OSWAPPush.ps1 'upload' 'twin=(4+3)/2' -Execute
-```
-
-`(4+3)/2` resolves to a replication factor of `3.5`: three whole destination copies are guaranteed and a fourth whole destination is selected with 50% probability. There is never a partial repository copy.
-
-The executing form shows the selected destinations and requires the operator to type `TWIN` before any remote write.
+Design documents describe future work explicitly and must not be read as proof that a feature is implemented.
 
 ## OSWAP language boundary
 
-OSWAP syntax is not PowerShell syntax. PowerShell is the host and prompt environment. The OSWAP parser defines `^` as exponentiation and applies OSWAP order of operations before Git execution.
+OSWAP is a domain-specific language. PowerShell is a supported host, launcher, implementation environment, and prompt surface; PowerShell grammar does not redefine OSWAP grammar.
 
-The reference OSWAP push implementation never uses `Invoke-Expression`.
+Within OSWAP arithmetic, `^` means exponentiation. The reference publication parser does not use `Invoke-Expression`, shell `eval`, or equivalent arbitrary-code evaluation.
 
-## Current implementation status
+The normative rules are in [OSWAP_STANDARD.md](OSWAP_STANDARD.md).
 
-`Invoke-OSWAPPush.ps1` recognizes canonical `upload twin=<expression>` preview and execution while retaining `push twin=<expression>` as a compatibility alias. It implements fractional whole-copy replication, randomized destination selection without replacement, and explicit `TWIN` confirmation before publication.
+## Fractional replication
 
-`Invoke-GitPullTwin.ps1` implements multi-source retrieval independently of the expression-addressing draft: it fetches each configured twin source, compares commit IDs, refuses disagreement, and only fast-forwards a clean local branch when the twin sources agree.
+A positive non-integer `twin` value represents probabilistic selection of one additional complete destination, never a partial repository.
 
-The expression-addressing reference parser and the PowerShell publication parser are still being converged. Features not shared by both implementations must not be presented as portable OSWAP syntax until they have matching conformance coverage.
+For example:
 
-See [Repository-native execution model](docs/REPOSITORY_NATIVE_EXECUTION.md) for the lightweight shell/Git architecture, optional GUI boundary, capability-based hardware portability, and provenance model.
+```text
+twin=(4+3)/2
+```
 
-## Destination pools
+resolves to `3.5`: three complete destination publications are guaranteed and a fourth complete destination is selected with 50% probability, subject to the configured eligible pool.
 
-The `twin` Git remote supplies the eligible push URL pool. A factor of `3.5` requires at least four configured push URLs because the fourth whole copy can be selected.
+## Consent and safety boundary
 
-The OSWAP tool selects destinations without replacement, displays the resulting selection, and requires explicit confirmation.
+OSWAP publication is preview-first. A successful parse is not authorization, authorization is not proof of execution, and execution is not proof of success.
 
-## Sensitive records
+The project does not use a `twin` expression as permission to force-push, rewrite history, reset a working tree, disable endpoint security, or publish private plaintext. Sensitive records must be encrypted before remote replication and decryption secrets must remain separate from replicated ciphertext.
 
-Do not place plaintext domestic-violence evidence, whistleblower material, or other sensitive private records into a public or multi-host Git repository.
+See [SECURITY.md](SECURITY.md) and [OSWAP_INTENT.md](OSWAP_INTENT.md).
 
-OSWAP Standard 0.2.0 requires sensitive material to be encrypted before remote replication, with descriptive metadata kept inside the protected package and decryption secrets kept separate. The Sovereign AI Framework repository contains the reference prompt-driven preservation workflow.
+## Documentation map
 
-OSWAP does not promise invisibility from spyware and does not disable antivirus, logging, or endpoint security.
+Start here:
 
-## Existing project documentation
+- [OSWAP Standard](OSWAP_STANDARD.md) — normative language and safety rules.
+- [OSWAP Intent](OSWAP_INTENT.md) — project goals and non-goals.
+- [Twin Protocol](TWIN_PROTOCOL.md) — transport behavior and reconciliation boundaries.
+- [Architecture Scope](ARCHITECTURE_SCOPE.md) — implemented versus proposed architecture.
+- [Branding](BRANDING.md) — canonical component identity and hosting-name policy.
+- [Glossary](GLOSSARY.md) — concise terminology with implementation-status labels.
+- [Mirrors](MIRRORS.md) — public endpoints and equivalence checks.
+- [Documentation index](docs/README.md) — deeper design and historical documents.
+- [Changelog](CHANGELOG.md) — user-facing project history.
 
-The existing installer, pull/push helpers, expression-addressing documents, tests, and repository-map configuration remain part of this project. The OSWAP Standard is the normative rule set for new OSWAP code going forward.
+## Contributing and support
+
+Bug reports, test cases, documentation corrections, portability fixes, and narrowly scoped feature proposals are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md) before contributing.
+
+For usage questions and support boundaries, see [SUPPORT.md](SUPPORT.md).
+
+## License
+
+OSWAP-authored code and documentation in this repository are licensed under the Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).

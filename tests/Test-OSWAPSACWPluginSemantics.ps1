@@ -4,7 +4,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$DocRoot = Join-Path $RepoRoot 'docs\oswapsacw-chatgpt-plugin'
+$DocsRoot = Join-Path $RepoRoot 'docs'
+$DocRoot = Join-Path $DocsRoot 'oswapsacw-chatgpt-plugin'
 $TestingDoc = Get-Content -Raw (Join-Path $DocRoot 'OSWAPSACW_CHATGPT_PLUGIN_TESTING.md')
 $Vectors = Get-Content -Raw (Join-Path $DocRoot 'OSWAPSACW_CHATGPT_PLUGIN_TEST_VECTORS.txt')
 
@@ -21,7 +22,9 @@ foreach ($pattern in $requiredDocPatterns) {
 }
 
 foreach ($case in @('CASE T01','CASE T02','CASE T03','CASE J01','CASE J02','CASE P01','CASE P02','CASE C01','CASE C02')) {
-    if ($Vectors -notmatch [regex]::Escape($case)) { throw "Missing test vector: $case" }
+    if ($Vectors -notmatch [regex]::Escape($case)) {
+        throw "Missing test vector: $case"
+    }
 }
 
 Write-Output 'OSWAPSACW plugin semantic documentation snapshot passed.'
