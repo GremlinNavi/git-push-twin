@@ -1,6 +1,6 @@
 # OSWAP Twin Transport
 
-OSWAP Twin Transport is the PowerShell/Git publication component of the Open-Source World Access Project (OSWAP). It provides preview-first, explicitly authorized multi-destination repository publication and cautious multi-source retrieval.
+OSWAP is a domain-specific programming language (DSL) for expressing auditable digital access, authorization, replication, preservation, provenance, and accountability workflows. OSWAP Twin Transport is the PowerShell/Git reference transport component of the Open-Source World Access Project (OSWAP), implementing part of that language's preview-first multi-destination publication and cautious multi-source retrieval semantics.
 
 Current version: `0.1.0-beta.1`
 OSWAP Standard: `0.2.1`
@@ -92,7 +92,7 @@ Design documents describe future work explicitly and must not be read as proof t
 
 ## OSWAP language boundary
 
-OSWAP is a domain-specific language. PowerShell is a supported host, launcher, implementation environment, and prompt surface; PowerShell grammar does not redefine OSWAP grammar.
+OSWAP is a domain-specific programming language (DSL), not merely a PowerShell wrapper, Git alias set, or collection of command names. PowerShell is a supported host, launcher, implementation environment, and prompt surface; PowerShell grammar does not redefine OSWAP grammar.
 
 Within OSWAP arithmetic, `^` means exponentiation. The reference publication parser does not use `Invoke-Expression`, shell `eval`, or equivalent arbitrary-code evaluation.
 
