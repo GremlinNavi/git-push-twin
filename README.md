@@ -3,7 +3,7 @@
 OSWAP Twin Transport is the PowerShell/Git publication component of the Open-Source World Access Project (OSWAP). It provides preview-first, explicitly authorized multi-destination repository publication and cautious multi-source retrieval.
 
 Current version: `0.1.0-beta.1`
-OSWAP Standard: `0.2.0`
+OSWAP Standard: `0.2.1`
 License: Apache-2.0
 Status: experimental public beta
 
@@ -13,6 +13,8 @@ Status: experimental public beta
 | --- | --- |
 | `twin` | Cardinality: how many independently selected copies or sources participate. |
 | `joker` | Policy: how eligible copies or sources are selected or used. Experimental in the OSWAPSACW documentation; it is not implemented as a synonym for `twin`. |
+| <code>&#124;&amp;</code> | Ordered OSWAP OR/AND logic-gate token. Token ordering is standardized; detailed execution semantics remain experimental. |
+| Y/N authorization | `Y` authorizes the stated attempt; `N` cancels. Neither input is a credential or proof of successful execution. |
 | `oswap upload twin=N` | Canonical user-facing publication form. |
 | `git push twin` | Compatibility transport mechanism for configured all-destination pushes. |
 | Accountability Ballchain | OSWAP accountability/provenance terminology inspired by the physical chain connecting military identity dog tags. It is not cryptocurrency or Bitcoin. |
@@ -110,7 +112,7 @@ resolves to `3.5`: three complete destination publications are guaranteed and a 
 
 ## Consent and safety boundary
 
-OSWAP publication is preview-first. A successful parse is not authorization, authorization is not proof of execution, and execution is not proof of success.
+OSWAP publication is preview-first. A successful parse is not authorization, authorization is not proof of execution, and execution is not proof of success. Where a Y/N gate is used, `Y` authorizes only the stated attempt and `N` cancels; neither value is authentication material.
 
 The project does not use a `twin` expression as permission to force-push, rewrite history, reset a working tree, disable endpoint security, or publish private plaintext. Sensitive records must be encrypted before remote replication and decryption secrets must remain separate from replicated ciphertext.
 

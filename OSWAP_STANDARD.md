@@ -2,7 +2,7 @@
 
 SPDX-License-Identifier: Apache-2.0
 
-Version: 0.2.0  
+Version: 0.2.1
 Project: Open-Source World Access Project (OSWAP)
 
 This document is normative for OSWAP code and documentation. New OSWAP implementations SHOULD conform to this standard unless a later version explicitly supersedes it.
@@ -13,7 +13,7 @@ OSWAP is a domain-specific language (DSL). OSWAP syntax is not PowerShell syntax
 
 PowerShell is a supported host, launcher, implementation environment, and human-facing prompt surface. PowerShell grammar does not redefine OSWAP grammar.
 
-OSWAP implementations MUST parse OSWAP expressions themselves and MUST NOT use `Invoke-Expression`, shell `eval`, or equivalent arbitrary-code evaluation for OSWAP arithmetic.
+OSWAP implementations MUST parse OSWAP expressions themselves and MUST NOT use `Invoke-Expression`, shell `eval`, or equivalent arbitrary-code evaluation for OSWAP arithmetic or OSWAP semantic operators.
 
 ## 2. Arithmetic grammar
 
@@ -45,6 +45,22 @@ oswap push twin=4*(15-(2^3-5))+18/3^2
 resolves to `50`.
 
 The host language's interpretation of `^` is irrelevant. Within OSWAP, `^` means exponentiation.
+
+### 2.1 Ordered OR/AND semantic token
+
+OSWAP reserves the ordered token `|&` as the OR/AND logic gate.
+
+The textual order is normative: `|&` means OR/AND. An implementation MUST NOT rename it AND/OR, reverse its stated order, or silently treat `&|` as an equivalent token.
+
+Example experimental form:
+
+```text
+twin|&joker=N
+```
+
+This is an OSWAP semantic expression, not a PowerShell pipeline followed by a PowerShell call operator. A host such as PowerShell may tokenize `|` and `&` separately; an OSWAP parser MUST recognize OSWAP syntax before host-language execution.
+
+The detailed evaluation truth table and execution profile for `|&` remain experimental and are not defined by OSWAP Standard 0.2.1. Implementations MUST NOT invent state-changing behavior for this token and claim conformance until a later normative profile defines that behavior.
 
 ## 3. Twin replication factors
 
@@ -91,6 +107,24 @@ Human-facing OSWAP safety workflows MUST use PowerShell/terminal prompts rather 
 Secrets, survivor names, case descriptions, decryption passphrases, private notes, and other sensitive content MUST NOT be placed in process command lines, Git remote names, branch names, repository names, or commit messages by OSWAP.
 
 Prompts MUST be explicit about side effects and MUST preserve cancellation as a normal outcome.
+
+### 5.1 Y/N authorization input standard
+
+When an OSWAP workflow exposes a `Y/N` prompt, the input is an authorization gate, not an authentication or credential prompt.
+
+A conforming Y/N authorization gate MUST follow these rules:
+
+- `Y` means the user authorizes an attempt to perform only the action explicitly described immediately before the prompt;
+- `N` means the user declines that action, and cancellation MUST be treated as a normal outcome;
+- `Y` MUST NOT be interpreted as a password, token, API key, signing secret, identity proof, or substitute for provider authentication;
+- the Y/N input surface MUST NOT request or accept account credentials, decryption secrets, private tokens, or other authentication material;
+- credentials MUST remain within the authenticated provider, connector, operating-system credential store, secret store, or other designated authentication boundary;
+- a `Y` response authorizes an attempt but does not prove that execution occurred or succeeded; and
+- parsing, authorization, execution, and verification SHOULD be represented as separate auditable states.
+
+If provider authorization, authentication, network access, validation, or execution fails after `Y`, the implementation MUST report the failure as a later-stage failure. It MUST NOT reinterpret the original `Y` as a credential or as proof of successful execution.
+
+OSWAP implementations MAY use a more specific confirmation phrase instead of Y/N where a workflow requires stronger operator attention. Such a phrase remains an authorization input and does not become a credential.
 
 ## 6. Preservation standard
 
@@ -151,4 +185,4 @@ External dependencies retain their own licenses.
 
 ## 10. Source of truth
 
-This file is the project-level source of truth for the OSWAP Standard 0.2.0. Command schemas, PowerShell implementations, tests, and intent documentation should be kept consistent with it.
+This file is the project-level source of truth for the OSWAP Standard 0.2.1. Command schemas, PowerShell implementations, tests, and intent documentation should be kept consistent with it.

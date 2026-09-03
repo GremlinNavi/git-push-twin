@@ -11,15 +11,19 @@ This changelog summarizes user-visible project changes. Historical development n
 - public mirror policy and verification guidance;
 - concise OSWAP terminology glossary;
 - documentation index for the expanding design surface;
-- unified local test runner for syntax and semantic-documentation checks; and
-- clearer public-facing explanation of Twin Transport status, safety boundaries, and mirror naming.
+- unified local test runner for syntax and semantic-documentation checks;
+- clearer public-facing explanation of Twin Transport status, safety boundaries, and mirror naming;
+- normative Y/N authorization-gate semantics separating authorization from credentials; and
+- the ordered `|&` token name as the OSWAP OR/AND logic gate, with execution semantics still reserved for a later profile.
 
 ### Clarified
 
 - `twin` is the cardinality dimension;
 - `joker` is a distinct policy dimension in experimental OSWAPSACW documentation;
-- the Accountability Ballchain metaphor is based on military dog-tag chains rather than cryptocurrency; and
-- equivalent GitHub/GitLab source trees can have different commit SHAs when platform commits are created independently.
+- the Accountability Ballchain metaphor is based on military dog-tag chains rather than cryptocurrency;
+- equivalent GitHub/GitLab source trees can have different commit SHAs when platform commits are created independently;
+- Y/N input authorizes an attempt but is not authentication, a credential, or proof of execution; and
+- `|&` is OR/AND in that textual order, not AND/OR and not an alias for `&|`.
 
 ## 0.1.0-beta.1
 
