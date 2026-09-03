@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  powershell-syntax:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -18,6 +18,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - name: Parse PowerShell source
+      - name: Run local conformance checks
         shell: pwsh
-        run: ./tests/Parse-PowerShell.ps1
+        run: ./tests/Run-All.ps1

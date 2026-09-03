@@ -1,12 +1,12 @@
 stages:
   - test
 
-powershell-syntax:
+powershell-conformance:
   stage: test
-  # Microsoft documents the .NET SDK container as including PowerShell for testing.
+  # Microsoft documents the .NET SDK image as including PowerShell.
   image: mcr.microsoft.com/dotnet/sdk:8.0
   script:
-    - pwsh -NoLogo -NoProfile -File ./tests/Parse-PowerShell.ps1
+    - pwsh -NoLogo -NoProfile -File ./tests/Run-All.ps1
 
 # Network-changing twin operations are intentionally excluded from CI.
 # Integration tests should use disposable local/bare repositories or explicit test fixtures.
