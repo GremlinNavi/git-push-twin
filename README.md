@@ -128,6 +128,9 @@ Start here:
 - [Architecture Scope](ARCHITECTURE_SCOPE.md) — implemented versus proposed architecture.
 - [Branding](BRANDING.md) — canonical component identity and hosting-name policy.
 - [Glossary](GLOSSARY.md) — concise terminology with implementation-status labels.
+- [Standards for Auditable Code](docs/AUDITABLE_CODE.md) — planned model-agnostic auditability requirements.
+- [Digital Accountability Ballchain](docs/DIGITAL_ACCOUNTABILITY_BALLCHAIN.md) — experimental file-change provenance and accountability model.
+- [Agentic Tool Integration](docs/AGENTIC_TOOL_INTEGRATION.md) — model/tool interoperability, authorization, and receipt design.
 - [Mirrors](MIRRORS.md) — public endpoints and equivalence checks.
 - [Documentation index](docs/README.md) — deeper design and historical documents.
 - [Changelog](CHANGELOG.md) — user-facing project history.

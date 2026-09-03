@@ -42,6 +42,20 @@ The Accountability Ballchain is not Bitcoin. It does not inherently require a to
 
 Status: project-level accountability/provenance concept; non-normative in OSWAP Standard 0.2.1 unless incorporated by a later standard revision.
 
+## Model agnosticism
+
+The OSWAP design requirement that normative semantics, execution policy, verification, and auditability must not depend on one AI model or provider. Provider-specific adapters may exist, but replacing a supported model must not redefine OSWAP commands or destroy the audit trail.
+
+Status: planned requirement for the Standards for Auditable Code; not yet normative in OSWAP Standard 0.2.1.
+
+## Accountable principal
+
+The human, organization, or accredited persona/pseudonym under whose authority a consequential operation is requested. The principal may be distinct from the agent, model, tool, script, or developer process that executes or mediates the action.
+
+## AI-assisted change
+
+A file or artifact modification in which an AI model or agent materially participates in proposing, generating, selecting, applying, or verifying the change. Recording AI participation does not by itself assign blame or legal responsibility.
+
 ## Provenance
 
 Information sufficient to understand where an artifact or event came from and how it relates to earlier states. Depending on the implementation, provenance can include source identifiers, artifact hashes, timestamps, authorization records, selected destinations, execution results, and verification results.
