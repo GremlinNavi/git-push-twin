@@ -37,7 +37,7 @@ See [Preservation Threat Model](docs/PRESERVATION_THREAT_MODEL.md) for historica
 
 This project is intentionally published on more than one forge:
 
-- GitHub: <https://github.com/GremlinNavi/OSWAP-twin>
+- GitHub: <https://github.com/GremlinNavi/oswap-twin>
 - GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
 
 The hosting slugs differ for compatibility reasons; the component name is `OSWAP Twin Transport`. Equivalent mirror snapshots can have different Git commit IDs when the same content is committed separately on each forge. See [MIRRORS.md](MIRRORS.md) for verification guidance.
@@ -53,8 +53,8 @@ Requirements:
 Clone either public mirror:
 
 ```powershell
-git clone https://github.com/GremlinNavi/OSWAP-twin.git
-Set-Location OSWAP-twin
+git clone https://github.com/GremlinNavi/oswap-twin.git
+Set-Location oswap-twin
 ```
 
 Run the local test suite:
@@ -134,12 +134,12 @@ See [SECURITY.md](SECURITY.md) and [OSWAP_INTENT.md](OSWAP_INTENT.md).
 
 Start here:
 
-- [OSWAP Standard](OSWAP_STANDARD.md) — normative language and safety rules.
+- [OSWAP Standard](OSWAP_STANDARD.md) — current normative language and safety rules.
 - [OSWAP Intent](OSWAP_INTENT.md) — project goals, historical preservation context, autonomy principles, and non-goals.
 - [Preservation Threat Model](docs/PRESERVATION_THREAT_MODEL.md) — deliberate archive-destruction threat model, Institute for Sexual Science historical context, and privacy-aware replication rationale.
 - [Twin Protocol](TWIN_PROTOCOL.md) — transport behavior and reconciliation boundaries.
-- [Architecture Scope](ARCHITECTURE_SCOPE.md) — implemented versus proposed architecture.
-- [Branding](BRANDING.md) — canonical component identity and hosting-name policy.
+- [Architecture Scope](ARCHITECTURE_SCOPE.md) — implemented versus proposed scope.
+- [Branding](BRANDING.md) — canonical component identity and compatibility names.
 - [Glossary](GLOSSARY.md) — concise terminology with implementation-status labels.
 - [Mirrors](MIRRORS.md) — public endpoints and equivalence checks.
 - [Documentation index](docs/README.md) — deeper design and historical documents.
