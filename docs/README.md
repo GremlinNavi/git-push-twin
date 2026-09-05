@@ -28,6 +28,14 @@ This material is explanatory rather than normative. Historical examples motivate
 - [Twin history reconciliation](TWIN_HISTORY_RECONCILIATION.md) — divergence and fast-forward rules.
 - [OSWAP installer integration](OSWAP_INSTALLER_INTEGRATION.md) — installer-facing integration guidance.
 
+## Accountability and agentic design
+
+- [Standards for Auditable Code](AUDITABLE_CODE.md) — planned model-agnostic accountability and provenance requirements.
+- [Digital Accountability Ballchain](DIGITAL_ACCOUNTABILITY_BALLCHAIN.md) — public, tamper-evident file-change accountability design.
+- [Agentic Tool Integration](AGENTIC_TOOL_INTEGRATION.md) — agent/tool policy, authorization, and accountability receipts.
+
+These files are experimental design documents unless a later OSWAP Standard incorporates their requirements.
+
 ## Expression-addressing design
 
 The files under `expression-addressing/` describe the evolving restricted arithmetic and provenance model:
