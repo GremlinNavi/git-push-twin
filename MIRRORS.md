@@ -8,7 +8,7 @@ OSWAP Twin Transport is intentionally published through independent public forge
 
 | Forge | Repository |
 | --- | --- |
-| GitHub | <https://github.com/GremlinNavi/OSWAP-twin> |
+| GitHub | <https://github.com/GremlinNavi/oswap-twin> |
 | GitLab | <https://gitlab.com/GremlinNavi-group/git-push-twin> |
 
 The different slugs are compatibility hosting identifiers. The canonical component name is `OSWAP Twin Transport`.
