@@ -25,7 +25,7 @@ See [GLOSSARY.md](GLOSSARY.md) for terminology and implementation-status notes.
 
 This project is intentionally published on more than one forge:
 
-- GitHub: <https://github.com/GremlinNavi/PS-twin>
+- GitHub: <https://github.com/GremlinNavi/OSWAP-twin>
 - GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
 
 The hosting slugs differ for compatibility reasons; the component name is `OSWAP Twin Transport`. Equivalent mirror snapshots can have different Git commit IDs when the same content is committed separately on each forge. See [MIRRORS.md](MIRRORS.md) for verification guidance.
@@ -41,8 +41,8 @@ Requirements:
 Clone either public mirror:
 
 ```powershell
-git clone https://github.com/GremlinNavi/PS-twin.git
-Set-Location PS-twin
+git clone https://github.com/GremlinNavi/OSWAP-twin.git
+Set-Location OSWAP-twin
 ```
 
 Run the local test suite:
