@@ -12,6 +12,20 @@ Repository loss, account takeover, device destruction, platform removal, coerciv
 
 OSWAP treats preservation as a user-controlled capability.
 
+## Historical design context
+
+OSWAP Twin Transport was designed in part with the 1933 destruction of Magnus Hirschfeld's Institute for Sexual Science (`Institut für Sexualwissenschaft`) in mind.
+
+On May 6, 1933, pro-Nazi students and members of the SA plundered the institute in Berlin. Books and documents taken from the institute were subsequently among the material targeted in the Nazi book burnings. On May 10, approximately 20,000 volumes were burned at Berlin's Opernplatz, including material confiscated from Hirschfeld's institute.
+
+The engineering lesson OSWAP draws from this history is limited and concrete: unique or centrally controlled archives are vulnerable to deliberate erasure when physical, administrative, or institutional control is captured.
+
+Twin therefore treats independent custody as a preservation property rather than merely a convenience. A project or archive should not depend for its continued existence on one repository host, one account, one provider, one institution, or ultimately one jurisdiction.
+
+This is historical design context, not a claim that contemporary repository failures are equivalent to Nazi persecution or the 1933 book burnings.
+
+See [`docs/PRESERVATION_THREAT_MODEL.md`](docs/PRESERVATION_THREAT_MODEL.md) for sources, claim boundaries, and the resulting preservation threat model.
+
 ## Information should survive coercion
 
 For sensitive records, the primary question is not only:
@@ -46,6 +60,8 @@ private identity/evidence -> minimize exposure and replicate protected ciphertex
 
 A sensitive preservation package should remain under the user's control until that user deliberately chooses disclosure.
 
+The preservation goal is therefore not simply "make more copies." It is to preserve knowledge without needlessly increasing risk to the people represented by that knowledge.
+
 ## Safety model
 
 OSWAP assumes that a device may be observable.
@@ -74,7 +90,9 @@ A user should be able to understand:
 
 OSWAP's `twin` model treats repository hosts as participating custodians rather than as the ontology of the project.
 
-A project or archive should be capable of existing across independent infrastructure. Fractional twin factors provide a compact way to express replication intensity while preserving whole-copy semantics.
+A project or archive should be capable of existing across independent infrastructure. Copy count matters, but independence matters too: multiple copies under one correlated administrative point of control do not provide the same preservation properties as copies held across genuinely independent infrastructure.
+
+Fractional twin factors provide a compact way to express replication intensity while preserving whole-copy semantics.
 
 For example:
 
@@ -83,6 +101,8 @@ oswap push twin=(4+3)/2
 ```
 
 means a replication factor of `3.5`: three whole destination copies are guaranteed and a fourth is selected with 50% probability.
+
+The current Twin implementation also treats source disagreement conservatively rather than silently choosing one copy and overwriting the others. This supports the broader preservation objective of surfacing possible corruption or divergence before reconciliation.
 
 ## Autonomy
 
@@ -100,6 +120,7 @@ This intent should be implemented through:
 - generic external package identifiers;
 - explicit confirmation before remote writes;
 - independent destination support;
+- multi-source verification and visible disagreement handling;
 - auditability and open licensing;
 - tests that fail closed when safety invariants are violated.
 
