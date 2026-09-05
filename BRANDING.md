@@ -3,14 +3,14 @@
 ## Canonical identity
 
 - Display name: `OSWAP Twin Transport`
-- GitHub repository slug: `PS-twin` (current canonical hosting identifier; the former `git-push-twin` URL redirects here)
+- GitHub repository slug: `OSWAP-twin` (current canonical hosting identifier; `PS-twin` is retained as a historical compatibility name)
 - GitLab repository slug: `git-push-twin` (current hosting identifier)
 - Primary implementation language: PowerShell
 - Canonical user-facing command: `oswap upload twin=N`
 - Compatibility Git transport command: `git push twin`
 - Current Git remote name: `twin`
 
-`OSWAP Twin Transport` is the component identity. `PS-twin` and `git-push-twin` are compatibility/hosting identifiers; Git, GitHub, GitLab, self-hosted Git servers, and future repository providers are transport surfaces rather than the public identity of the component.
+`OSWAP Twin Transport` is the component identity. `OSWAP-twin` is the current GitHub hosting identifier; `PS-twin` is a historical compatibility identifier, and `git-push-twin` remains the current GitLab hosting identifier. Git, GitHub, GitLab, self-hosted Git servers, and future repository providers are transport surfaces rather than the public identity of the component.
 
 The name deliberately avoids privileging a particular repository provider. The current implementation uses standard Git transport because Git is broadly interoperable, but OSWAP architecture should remain free to add other repository or archival adapters without requiring another project rename.
 
@@ -44,7 +44,7 @@ See [ORDER_OF_OPERATIONS_ADDRESSING_AND_BUILD_PROVENANCE.md](ORDER_OF_OPERATIONS
 
 The connected forge projects currently use different compatibility hosting slugs:
 
-- GitHub: <https://github.com/GremlinNavi/PS-twin>
+- GitHub: <https://github.com/GremlinNavi/OSWAP-twin>
 - GitLab: <https://gitlab.com/GremlinNavi-group/git-push-twin>
 
 Those URLs are hosting identifiers, not the canonical component name. Avoid further repository renames during active development unless there is a concrete migration need; public documentation should use `OSWAP Twin Transport` and canonical OSWAP command syntax.
@@ -56,7 +56,7 @@ Those URLs are hosting identifiers, not the canonical component name. Avoid furt
 - the literal `git push twin` command;
 - compatibility-facing script filenames such as `Invoke-GitPushTwin.ps1`;
 - immutable historical archives, checksums, commits, or links; or
-- current forge paths that have not yet been renamed.
+- historical forge paths and compatibility references.
 
 Do not interpret those compatibility references as provider preference.
 
