@@ -21,6 +21,18 @@ Status: experimental public beta
 
 See [GLOSSARY.md](GLOSSARY.md) for terminology and implementation-status notes.
 
+## Historical preservation motivation
+
+Twin's preservation model was designed in part with the 1933 destruction of Magnus Hirschfeld's Institute for Sexual Science in mind.
+
+The institute in Berlin was plundered on May 6, 1933, and material confiscated from it was among the approximately 20,000 volumes burned at Berlin's Opernplatz on May 10. The preservation lesson OSWAP draws from this history is narrow and technical: information under concentrated custody can become vulnerable to deliberate destruction, suppression, or loss when control of that custody is captured.
+
+Twin therefore treats independent custody as part of the preservation model. The project should not depend conceptually on one repository host, one account, one provider, one institution, or one jurisdiction for continued existence.
+
+This historical motivation does not equate ordinary platform or repository failures with Nazi persecution. It informs the threat model for deliberate archive destruction and correlated administrative failure.
+
+See [Preservation Threat Model](docs/PRESERVATION_THREAT_MODEL.md) for historical sources, engineering implications, privacy boundaries, and related digital-preservation precedent.
+
 ## Public mirrors
 
 This project is intentionally published on more than one forge:
@@ -123,7 +135,8 @@ See [SECURITY.md](SECURITY.md) and [OSWAP_INTENT.md](OSWAP_INTENT.md).
 Start here:
 
 - [OSWAP Standard](OSWAP_STANDARD.md) — normative language and safety rules.
-- [OSWAP Intent](OSWAP_INTENT.md) — project goals and non-goals.
+- [OSWAP Intent](OSWAP_INTENT.md) — project goals, historical preservation context, autonomy principles, and non-goals.
+- [Preservation Threat Model](docs/PRESERVATION_THREAT_MODEL.md) — deliberate archive-destruction threat model, Institute for Sexual Science historical context, and privacy-aware replication rationale.
 - [Twin Protocol](TWIN_PROTOCOL.md) — transport behavior and reconciliation boundaries.
 - [Architecture Scope](ARCHITECTURE_SCOPE.md) — implemented versus proposed architecture.
 - [Branding](BRANDING.md) — canonical component identity and hosting-name policy.
