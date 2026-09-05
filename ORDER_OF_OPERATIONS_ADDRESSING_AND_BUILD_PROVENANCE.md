@@ -6,17 +6,21 @@ This document extends the proposed Order of Operations identifier model describe
 
 It is design documentation. Examples in this file describe intended wrapper or protocol behavior and must not be presented as native Git syntax unless and until the required PowerShell/Git integration is implemented and tested.
 
-## Owned OSWAP domain namespace
+## Registered OSWAP domain namespace — not yet online
 
-OSWAP currently controls the following public domains:
+OSWAP has registered the following domains for planned future infrastructure:
 
 - `oswap.ca`
 - `oswap.jp`
 - `oswap.us`
 
-Domain ownership provides stable OSWAP-controlled namespaces. It does not by itself mean that every example subdomain in this document is already deployed, reachable, or backed by a Git service. Individual services remain planned until DNS, TLS, routing, and Git protocol behavior are configured and verified.
+No website, Git endpoint, API, or other public OSWAP service on these domains is represented by this document as currently deployed or online.
 
-The three domains may expose peer repository identities without designating one country domain as the universal primary copy.
+Domain registration provides reserved OSWAP-controlled namespaces for future use. It does not by itself mean that any example subdomain in this document is deployed, reachable, or backed by a Git service. Individual services remain planned until DNS, TLS, routing, hosting, and Git protocol behavior are configured and independently verified.
+
+The three domains may eventually expose peer repository identities without designating one country domain as the universal primary copy.
+
+For executable documentation or tests that require a deliberately non-operational hostname, use an IANA-reserved example or `.invalid` name rather than a real OSWAP-owned domain.
 
 ## Canonical expression and transport-safe identifier
 
@@ -55,29 +59,29 @@ The parser must reject ambiguous or malformed encodings rather than guessing.
 
 ## Expression-addressed OSWAP repository subdomains
 
-A planned public naming convention is:
+A planned future public naming convention is:
 
 ```text
 repo<transport-safe-expression>.<oswap-domain>
 ```
 
-Examples include:
+Planned hostname examples include:
 
 ```text
-repo9d3.oswap.ca
-repo9d3.oswap.jp
-repo9d3.oswap.us
+repo9d3.oswap.ca   [planned]
+repo9d3.oswap.jp   [planned]
+repo9d3.oswap.us   [planned]
 
-repo6d2.oswap.ca
-repo6d2.oswap.jp
-repo6d2.oswap.us
+repo6d2.oswap.ca   [planned]
+repo6d2.oswap.jp   [planned]
+repo6d2.oswap.us   [planned]
 ```
 
 The equation identity and country domain are separate dimensions unless an explicit registry assigns a particular expression to a particular member or jurisdiction.
 
-That separation allows the same Order of Operations identity to be represented through more than one owned OSWAP domain while retaining independently addressable endpoints.
+That separation would allow the same Order of Operations identity to be represented through more than one registered OSWAP domain while retaining independently addressable endpoints after deployment.
 
-A resolver can therefore interpret:
+A resolver can represent a planned hostname such as:
 
 ```text
 repo9d3.oswap.ca
@@ -87,6 +91,7 @@ as metadata equivalent to:
 
 ```text
 Domain:               oswap.ca
+Deployment state:     planned / not online
 Canonical expression: 9/3
 Transport-safe ID:    9d3
 Resolved value:       3
@@ -98,16 +103,16 @@ The resolved value may identify a family while the complete expression continues
 
 A PowerShell/Git integration may accept an expressive form that cannot itself be sent directly to DNS.
 
-Conceptual example:
+For documentation and parser testing, use a deliberately non-operational hostname:
 
 ```powershell
-git pull repo(9/3).oswap.ca
+git pull repo(9/3).oswap.invalid
 ```
 
-The integration would intercept and normalize the expression before ordinary Git/network resolution:
+The integration could intercept and normalize the expression before ordinary Git/network resolution:
 
 ```text
-repo(9/3).oswap.ca
+repo(9/3).oswap.invalid
         |
         v
 extract canonical expression: 9/3
@@ -119,20 +124,12 @@ validate restricted arithmetic
 transport-safe ID: 9d3
         |
         v
-network hostname: repo9d3.oswap.ca
-        |
-        v
-ordinary Git transport
+documentation/test hostname: repo9d3.oswap.invalid
 ```
 
-Accordingly, these may represent the same logical endpoint to the OSWAP wrapper:
+`.invalid` is intentionally non-operational. A production deployment would map the validated expression to a separately configured and verified hostname only after that endpoint exists.
 
-```text
-repo(9/3).oswap.ca
-repo9d3.oswap.ca
-```
-
-Only the second form is the DNS-safe hostname. The first is proposed human-facing syntax handled before Git attempts network resolution.
+Accordingly, a future deployed profile could map the logical identity to a planned hostname such as `repo9d3.oswap.ca`, but documentation must not present that planned hostname as a usable network endpoint until deployment verification succeeds.
 
 ## Relationship to twin subset selection
 
@@ -217,7 +214,9 @@ The Git commit and artifact checksums remain the authoritative technical evidenc
 
 ## Proposed build metadata
 
-A machine-readable build manifest can preserve the literal and derived values together:
+A machine-readable build manifest can preserve the literal and derived values together.
+
+For documentation or testing before OSWAP domain deployment, use a reserved non-operational hostname:
 
 ```json
 {
@@ -227,13 +226,14 @@ A machine-readable build manifest can preserve the literal and derived values to
   "family": 3,
   "equation": "9/3",
   "equationSafe": "9d3",
-  "oswapDomain": "oswap.ca",
-  "repositoryHost": "repo9d3.oswap.ca",
+  "oswapDomain": "oswap.invalid",
+  "repositoryHost": "repo9d3.oswap.invalid",
+  "deploymentStatus": "documentation-placeholder",
   "expectedCommit": "a41c92f..."
 }
 ```
 
-A production manifest may add artifact hashes, signatures, reviewer decisions, tool versions, and other reproducibility fields.
+A production manifest may substitute a verified deployed hostname and add artifact hashes, signatures, reviewer decisions, tool versions, and other reproducibility fields.
 
 ## Conceptual build command
 
@@ -262,39 +262,42 @@ The displayed date must come from an explicit build-date source or recorded buil
 
 Expression-addressed repositories and date-addressed builds can strengthen human-readable audit trails when combined with actual authentication and source identity.
 
-A review record could contain:
+Before public OSWAP domain deployment, a documentation example should use a deliberately non-operational hostname:
 
 ```text
-OSWAP domain:            oswap.ca
-Repository hostname:     repo9d3.oswap.ca
-Canonical expression:    9/3
-Family:                  3
-Build date:              2026-09-02
-Git commit:              a41c92f...
-Reviewer:                <human identity>
-Decision:                APPROVE / REJECT
-Authorized action:       pull / integrate / publish
-Signature:               <cryptographic signature, when used>
-Timestamp:               <review timestamp>
+OSWAP domain placeholder: oswap.invalid
+Repository hostname:      repo9d3.oswap.invalid
+Canonical expression:     9/3
+Family:                   3
+Build date:               2026-09-02
+Git commit:               a41c92f...
+Reviewer:                 <human identity>
+Decision:                 APPROVE / REJECT
+Authorized action:        pull / integrate / publish
+Signature:                <cryptographic signature, when used>
+Timestamp:                <review timestamp>
 ```
+
+A production record may contain a verified deployed OSWAP hostname after the relevant service is online.
 
 The Order of Operations identifier locates the oversight context. The Git object identifies the code. A signature or authenticated forge identity attributes the human decision. These roles should not be conflated.
 
 ## Domain and deployment safety boundary
 
-Documentation may state that OSWAP owns `oswap.ca`, `oswap.jp`, and `oswap.us`.
+Documentation may state that OSWAP has registered `oswap.ca`, `oswap.jp`, and `oswap.us` for planned future infrastructure.
 
-Documentation must still distinguish ownership from deployed capability:
+Documentation must still distinguish registration from deployed capability:
 
 ```text
-Domain ownership:      established OSWAP namespace
-Example subdomain:     proposed until created
-DNS/TLS routing:       unverified until tested
-Git Smart HTTP:        unverified until tested
-Repository equivalence: verified only through Git/content checks
+Domain registration:     reserved OSWAP namespace
+Current OSWAP website:   not yet deployed
+Example subdomain:       proposed until created and verified
+DNS/TLS routing:         unverified until tested
+Git Smart HTTP:          unverified until tested
+Repository equivalence:  verified only through Git/content checks
 ```
 
-This keeps public claims accurate while allowing the owned domains to be used freely in architecture and protocol examples.
+A real OSWAP-owned hostname should not be placed in a copy-pasteable network command merely as an example while it is undeployed. Use `.invalid` or another reserved documentation name for such examples.
 
 ## Summary
 
@@ -308,7 +311,10 @@ The extended addressing model separates human notation from transport syntax and
   -> transport-safe expression ID
 
 repo9d3.oswap.ca
-  -> OSWAP-controlled network identity
+  -> planned future OSWAP-controlled network identity; not currently deployed
+
+repo9d3.oswap.invalid
+  -> deliberately non-operational documentation/test identity
 
 2026-09-02
   -> canonical build date
@@ -323,4 +329,4 @@ SHA-256 / signature
   -> integrity and authenticated attribution where applicable
 ```
 
-This preserves the central design principle: human-readable mathematical structure can organize repository relationships and provenance, while ordinary Git objects, cryptographic evidence, explicit configuration, and human authorization remain responsible for technical integrity and consequential actions.
+This preserves the central design principle: human-readable mathematical structure can organize repository relationships and provenance, while ordinary Git objects, cryptographic evidence, explicit configuration, verified deployment state, and human authorization remain responsible for technical integrity and consequential actions.
