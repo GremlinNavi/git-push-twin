@@ -7,9 +7,15 @@ This index separates normative rules, current implementation documentation, expe
 ## Normative project documents
 
 - [OSWAP Standard](../OSWAP_STANDARD.md) — current normative language and safety rules.
-- [OSWAP Intent](../OSWAP_INTENT.md) — project goals, autonomy principles, and non-goals.
+- [OSWAP Intent](../OSWAP_INTENT.md) — project goals, historical preservation context, autonomy principles, and non-goals.
 - [Security policy](../SECURITY.md) — vulnerability-reporting and security boundaries.
 - [Contribution guide](../CONTRIBUTING.md) — contributor workflow and expectations.
+
+## Preservation and threat-model context
+
+- [Preservation Threat Model](PRESERVATION_THREAT_MODEL.md) — historical design context for deliberate archive destruction, including the 1933 destruction of Magnus Hirschfeld's Institute for Sexual Science; explains how that history informs independent custody, multi-destination replication, integrity checking, and privacy-aware preservation.
+
+This material is explanatory rather than normative. Historical examples motivate engineering requirements without asserting equivalence between contemporary infrastructure failures and the events used as case studies.
 
 ## Current component documentation
 
